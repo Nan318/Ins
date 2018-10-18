@@ -125,7 +125,7 @@ public class PostActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(instagram, "Share to"));
     }
 
-    /*private void showDialog() {
+    private void showDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setTitle("Choose a Bluetooth Pair");
 
@@ -139,7 +139,7 @@ public class PostActivity extends AppCompatActivity {
         lv.setAdapter(clad);
 
         // action on item
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+     /*   lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = new Intent(PostActivity.this,  SwipeActivity.class);
@@ -151,13 +151,13 @@ public class PostActivity extends AppCompatActivity {
 
                 startActivity(intent);
             }
-        });
+        });*/
 
         dialog.setContentView(view);
 
         dialog.show();
 
-    }*/
+    }
 
     private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
         @Override

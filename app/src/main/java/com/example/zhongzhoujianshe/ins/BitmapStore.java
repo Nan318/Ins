@@ -28,7 +28,7 @@ public class BitmapStore {
         return rbmp;
     }
 
-    // universal method of cropping bitmap to circle
+
     public static Bitmap getCroppedBitmap(Bitmap bitmap) {
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(),
                 bitmap.getHeight(), Bitmap.Config.ARGB_8888);
