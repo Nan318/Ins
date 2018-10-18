@@ -11,11 +11,7 @@ import com.example.zhongzhoujianshe.ins.BluetoothPair;
 
 import java.util.ArrayList;
 
-/**
- * Bluetooth pairs should be in the format of BluetoothPair, and be passed in as ArrayList
- * This class creates a dialog which lists all of the paired device
- * Created by raymond on 10/11/15.
- */
+
 public class BluetoothDialog extends BaseAdapter {
 
     private ArrayList<BluetoothPair> listData;
