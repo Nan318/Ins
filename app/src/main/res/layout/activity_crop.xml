@@ -2,9 +2,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.zhongzhoujianshe.ins.CropActivity">
+    tools:context="com.example.zhongzhoujianshe.ins.Carema.CropActivity">
 
-    <com.example.zhongzhoujianshe.ins.CropView
+    <com.example.zhongzhoujianshe.ins.ImageProcess.CropView
         android:id="@+id/crop_view"
         android:layout_width="640px"
         android:layout_height="640px"
