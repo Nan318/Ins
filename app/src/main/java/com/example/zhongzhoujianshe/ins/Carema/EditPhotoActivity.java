@@ -1,7 +1,5 @@
-package com.example.zhongzhoujianshe.ins;
+package com.example.zhongzhoujianshe.ins.Carema;
 
-import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Environment;
@@ -16,8 +14,11 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.graphics.Matrix;
-import com.example.zhongzhoujianshe.ins.BitmapStore;
-import com.example.zhongzhoujianshe.ins.ImageProcessing;
+import com.example.zhongzhoujianshe.ins.ImageProcess.BitmapStore;
+import com.example.zhongzhoujianshe.ins.ImageProcess.ImageProcessing;
+import com.example.zhongzhoujianshe.ins.PostActivity;
+import com.example.zhongzhoujianshe.ins.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -54,11 +55,9 @@ public class EditPhotoActivity extends AppCompatActivity  {
         if (intent != null) {
             Matrix matrix = new Matrix();
             rawBitmap = BitmapStore.getBitmap();
-            matrix.setRotate(90);
+            matrix.setRotate(90);//turn 90
             Bitmap dstbmp=Bitmap.createBitmap(rawBitmap,0,0,rawBitmap.getWidth(), rawBitmap.getHeight(),matrix,true);
             imageView.setImageBitmap(dstbmp);
-          //  rawBitmap = Bitmap.createScaledBitmap(rawBitmap, 640, 640, false);
-           // imageView.setImageBitmap(rawBitmap);
             newBitmap = dstbmp;
         }
 
@@ -119,8 +118,6 @@ public class EditPhotoActivity extends AppCompatActivity  {
 
 
         // Listener for seekbar object
-        //Bug-fixed need to figure out how to change contrast of the picture on the fly
-        //Bug-fixed 2nd time return to editing, it will throw an error
         seekBarContrast.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -159,7 +156,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
         });
 
 
-        //listen for crop butten
+        //crop button
         btnCrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,12 +177,9 @@ public class EditPhotoActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
+
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_next) {
             startNext();
             return true;

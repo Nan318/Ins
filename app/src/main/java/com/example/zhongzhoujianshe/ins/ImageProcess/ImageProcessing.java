@@ -1,4 +1,4 @@
-package com.example.zhongzhoujianshe.ins;
+package com.example.zhongzhoujianshe.ins.ImageProcess;
 
 import android.graphics.Bitmap;
 import android.graphics.BlurMaskFilter;
@@ -68,13 +68,6 @@ public class ImageProcessing {
         return bmOut;
     }
 
-    /**
-     *
-     * @param bmp input bitmap
-     * @param contrast 0..10 1 is default
-     * @param brightness -255..255 0 is default
-     * @return new bitmap
-     */
     public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
     {
         ColorMatrix cm = new ColorMatrix(new float[]

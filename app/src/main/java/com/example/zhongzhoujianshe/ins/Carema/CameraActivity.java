@@ -1,14 +1,12 @@
-package com.example.zhongzhoujianshe.ins;
+package com.example.zhongzhoujianshe.ins.Carema;
 
 import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
 import android.graphics.PixelFormat;
 import android.hardware.Camera;
-import android.media.MediaScannerConnection;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -24,12 +22,13 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-import com.example.zhongzhoujianshe.ins.BitmapStore;
+import com.example.zhongzhoujianshe.ins.ImageProcess.BitmapStore;
+import com.example.zhongzhoujianshe.ins.R;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 
 
 /* Camera Activity implements the camera functionality of the app. */
@@ -78,8 +77,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
         // Button to Control FlashLight
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
-        // BugFixed - when return with isChecked state, there is a error message on screen
-        // saying that camera isn't working properly, but does not affect the functioning
         btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
@@ -105,9 +102,32 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 }
             }
         });
+        /*btnFlash.setOnClickListener(new View.OnClickListener() {
+	            @Override
+	            public void onClick(View v) {
+	                if (isLighOn) {
+			if (camera == null) {
+   			 camera = Camera.open();
+			}
+	                    Log.i("info", "torch is turn off!");
 
-        // Button to Enter Gallery
-        // Bug-fixed need to access all the pictures
+			Camera.Parameters p = camera.getParameters();
+
+	                    p.setFlashMode(Parameters.FLASH_MODE_OFF);
+	                    mCamera.setParameters(p);
+	                    mCamera.startPreview();
+	                    isLighOn = false;
+	                } else {
+	                    Log.i("info", "torch is turn on!");
+	                    p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+	                    mCamera.setParameters(p);
+	                    mCamera.startPreview();
+	                    isLighOn = true;
+	                }
+	            }
+	        });*/
+
+        // Gallery
         btnGallery = (ImageButton) findViewById(R.id.button_gallery);
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -211,7 +231,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
 
-    // Bug-fixed: out of memory error when go back and select photo 2nd time
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -226,7 +245,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 e.printStackTrace();
             }
 
-            // Pass the new image to the next edit view
             Intent intent = new Intent();
             intent.setClass(CameraActivity.this, EditPhotoActivity.class);
             startActivity(intent);

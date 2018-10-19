@@ -1,14 +1,10 @@
-package com.example.zhongzhoujianshe.ins;
+package com.example.zhongzhoujianshe.ins.ImageProcess;
 
 
 import android.graphics.Bitmap;
 import android.graphics.Color;
 
-/**
- * Created by sym44 on 9/29/2015.
- * Full credit to Pete Houston (http://petehouston.com/)
- * Original Source Code: http://xjaphx.wordpress.com/learning/tutorials/
- */
+
 public class ConvolutionMatrix
 {
     public static final int SIZE = 3;
