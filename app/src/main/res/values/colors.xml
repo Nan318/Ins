@@ -1,6 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="colorPrimary">#008577</color>
+    <color name="green">#65c979</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+    <color name="light_gray">#b5b5b5</color>
+    <color name="gray">#807f80</color>
+    <color name="darker_gray">#666566</color>
+    <color name="yellow">#f8d34a</color>
+    <color name="yellow_press">#d2b446</color>
+    <color name="blue">#469af8</color>
+    <color name="toolbar">#4987c1</color>
+    <color name="bluePress">#4987c1</color>
+    <color name="darkBlue">#3965b9</color>
+    <color name="darkBlueP">#4161a0</color>
+    <color name="pink">#e0787c</color>
+    <color name="colorHeart">#dd5b61</color>
+    <color name="red">#ea3323</color>
+    <color name="redP">#d4473b</color>
+    <color name="lightOrange">#e4a354</color>
+    <color name="orangeP">#b78d5a</color>
+    <color name="orange">#f29b5f</color>
+    <color name="darkOrange">#d8833b</color>
+    <color name="darkerBlue">#102132</color>
+
 </resources>
