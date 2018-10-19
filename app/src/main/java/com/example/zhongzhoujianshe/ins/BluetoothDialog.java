@@ -1,5 +1,6 @@
 package com.example.zhongzhoujianshe.ins;
 
+
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -61,3 +62,4 @@ public class BluetoothDialog extends BaseAdapter {
         TextView deviceView;
     }
 }
+
