@@ -68,13 +68,6 @@ public class ImageProcessing {
         return bmOut;
     }
 
-    /**
-     *
-     * @param bmp input bitmap
-     * @param contrast 0..10 1 is default
-     * @param brightness -255..255 0 is default
-     * @return new bitmap
-     */
     public static Bitmap changeBitmapContrastBrightness(Bitmap bmp, float contrast, float brightness)
     {
         ColorMatrix cm = new ColorMatrix(new float[]
@@ -114,7 +107,7 @@ public class ImageProcessing {
                 index = y * width + x;
                 // convert to HSV
                 Color.colorToHSV(pixels[index], HSV);
-                // increase Saturation level
+
                 HSV[1] *= level;
                 HSV[1] = (float) Math.max(0.0, Math.min(HSV[1], 1.0));
                 // take color back
