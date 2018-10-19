@@ -6,10 +6,9 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-
+import com.example.zhongzhoujianshe.ins.CropView;
 import com.example.zhongzhoujianshe.ins.BitmapStore;
 
-/* This activity deals with the crop image function */
 public class CropActivity extends AppCompatActivity {
 
     private Bitmap rawBitmap = null;
@@ -26,6 +25,7 @@ public class CropActivity extends AppCompatActivity {
 
         cropview = (CropView) findViewById(R.id.crop_view);
         Intent intent = getIntent();
+        //Get crop image
         if (intent != null) {
             rawBitmap = BitmapStore.getBitmap();
             cropview.setImageBitmap(rawBitmap);

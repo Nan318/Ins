@@ -79,10 +79,7 @@ public class PostActivity extends AppCompatActivity {
 
 
     private void startBluetooth() {
-        /*
-         Check to see if Bluetooth Adapter is enabled or not. If its enabled, set
-         the request to enable it.
-         */
+
         mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
         if (!mBluetoothAdapter.isEnabled()) {
             Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
@@ -95,14 +92,8 @@ public class PostActivity extends AppCompatActivity {
         startActivity(discoverableIntent);
         IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
 
-        // Register the devices and start broadcast to get the name of the Devices.
-        // This registers the devices using BroadcastReceiver.
         registerReceiver(mReceiver, filter);
 
-        // This code searches for all devices nearby which have their bluetooth on and are currently
-        // discoverable. Currently I have hardcoded this process to search for Aurora. If it finds
-        // Aurora, it will become the client and start the client thread. Else, the server thread will
-        // continue to function.
         pairedDevices = mBluetoothAdapter.getBondedDevices();
         if (pairedDevices.size() > 0) {
             for (BluetoothDevice device : pairedDevices) {
@@ -133,7 +124,6 @@ public class PostActivity extends AppCompatActivity {
 
         ListView lv = (ListView) view.findViewById(R.id.pair_list);
 
-        // Change MyActivity.this and myListOfItems to your own values
         BluetoothDialog clad = new BluetoothDialog(PostActivity.this, bluetoothPairs);
 
         lv.setAdapter(clad);

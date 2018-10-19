@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.zhongzhoujianshe.ins.CropActivity">
 
-    <com.parse.unimelb.CropView
+    <com.example.zhongzhoujianshe.ins.CropView
         android:id="@+id/crop_view"
         android:layout_width="640px"
         android:layout_height="640px"
