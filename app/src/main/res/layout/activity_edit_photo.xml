@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:text="Contrast: 10"
+        android:textColor="#ff33b5e5"
         android:layout_marginTop="5dp"/>
 
     <SeekBar
@@ -30,6 +31,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Brightness: 50"
+        android:textColor="#ff33b5e5"
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/seekbar_contrast"
         android:layout_alignParentLeft="true"
