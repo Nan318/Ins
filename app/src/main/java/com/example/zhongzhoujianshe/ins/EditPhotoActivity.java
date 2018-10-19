@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.graphics.Matrix;
 import com.example.zhongzhoujianshe.ins.BitmapStore;
 import com.example.zhongzhoujianshe.ins.ImageProcessing;
 import java.io.File;
@@ -22,19 +23,17 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-/*
- * This class implements all the photo editing related functions, including the contrast and
- * brightness, filters, and crop
- */
+
 public class EditPhotoActivity extends AppCompatActivity  {
     private ImageView imageView;
     private Bitmap rawBitmap;
     private Bitmap newBitmap;
     private Bitmap scaledBitmap;
 
-    private Button btnColorFilter = null;
-    private Button btnSaturation = null;
-    private Button btnEngrave = null;
+
+    private Button btnFilter1 = null;
+    private Button btnFilter2 = null;
+    private Button btnFilter3 = null;
     private Button btnCrop = null;
     private SeekBar seekBarContrast = null;
     private SeekBar seekBarBrightness = null;
@@ -53,20 +52,24 @@ public class EditPhotoActivity extends AppCompatActivity  {
         imageView = (ImageView)findViewById(R.id.imageview_edit);
         Intent intent = getIntent();
         if (intent != null) {
+            Matrix matrix = new Matrix();
             rawBitmap = BitmapStore.getBitmap();
-            rawBitmap = Bitmap.createScaledBitmap(rawBitmap, 640, 640, false);
-            imageView.setImageBitmap(rawBitmap);
-            newBitmap = rawBitmap;
+            matrix.setRotate(90);
+            Bitmap dstbmp=Bitmap.createBitmap(rawBitmap,0,0,rawBitmap.getWidth(), rawBitmap.getHeight(),matrix,true);
+            imageView.setImageBitmap(dstbmp);
+          //  rawBitmap = Bitmap.createScaledBitmap(rawBitmap, 640, 640, false);
+           // imageView.setImageBitmap(rawBitmap);
+            newBitmap = dstbmp;
         }
 
         // Filters
-        btnColorFilter = (Button) findViewById(R.id.button_color);
-        btnSaturation = (Button) findViewById(R.id.button_saturation);
-        btnEngrave = (Button) findViewById(R.id.button_engrave);
+        btnFilter3 = (Button) findViewById(R.id.button_filter3);
+        btnFilter1 = (Button) findViewById(R.id.button_filter1);
+        btnFilter2 = (Button) findViewById(R.id.button_filter2);
         btnCrop = (Button) findViewById(R.id.button_crop);
 
 
-        btnColorFilter.setOnClickListener(new View.OnClickListener() {
+        btnFilter3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(FILTER_STATIC == 1) {
@@ -80,7 +83,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
             }
         });
 
-        btnSaturation.setOnClickListener(new View.OnClickListener() {
+        btnFilter1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(FILTER_STATIC == 1) {
@@ -94,7 +97,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
             }
         });
 
-        btnEngrave.setOnClickListener(new View.OnClickListener() {
+        btnFilter2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(FILTER_STATIC == 1) {
