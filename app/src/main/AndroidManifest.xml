@@ -37,17 +37,22 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Login.LoginActivity">
+
+        </activity>
+        <activity android:name=".Login.RegisterActivity">
+
+        </activity>
+        <activity android:name=".CameraActivity" />
+        <activity android:name=".EditPhotoActivity" />
+        <activity android:name=".PostActivity" />
+        <activity android:name=".CropActivity" />
+        <activity android:name=".Discover.DiscoverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.RegisterActivity"></activity>
-        <activity android:name=".CameraActivity" />
-        <activity android:name=".EditPhotoActivity" />
-        <activity android:name=".PostActivity" />
-        <activity android:name=".CropActivity"/>
     </application>
 
 </manifest>

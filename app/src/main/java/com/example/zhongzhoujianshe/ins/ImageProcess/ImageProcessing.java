@@ -107,7 +107,7 @@ public class ImageProcessing {
                 index = y * width + x;
                 // convert to HSV
                 Color.colorToHSV(pixels[index], HSV);
-                // increase Saturation level
+
                 HSV[1] *= level;
                 HSV[1] = (float) Math.max(0.0, Math.min(HSV[1], 1.0));
                 // take color back
