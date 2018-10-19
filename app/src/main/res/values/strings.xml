@@ -1,4 +1,16 @@
 <resources>
     <string name="app_name">Ins</string>
+    <string name="invalid_msg">INVALID INPUT</string>
+    <string name="login">LOGIN</string>
+    <string name="email">Email</string>
+    <string name="txt">text</string>
+    <string name="password">Password</string>
+    <string name="enter_email">PLEASE ENTER YOUR EMAIL</string>
+    <string name="enter_password">PLEASE ENTER YOUR PASSWORD</string>
+    <string name="register_form">Register Form</string>
+    <string name="register">REGISTER</string>
+    <string name="username">Username</string>
+    <string name="enter_username">PLEASE ENTER YOUR USERNAME</string>
+
     <string name="title_activity_bluetooth_dialog">BluetoothDialog</string>
 </resources>

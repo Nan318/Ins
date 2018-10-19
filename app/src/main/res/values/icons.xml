@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="icon_email">&#xe601;</string>
+    <string name="icon_password">&#xe61b;</string>
+    <string name="icon_username">&#xe604;</string>
+    <string name="icon_back">&#xe60b;</string>
+
+
+</resources>

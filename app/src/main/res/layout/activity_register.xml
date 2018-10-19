@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Login.RegisterActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/register_toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="@style/AppTheme.Base">
+
+        <TextView
+            android:id="@+id/toolbar_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left|center"
+            android:text="@string/icon_back"
+            android:textColor="@drawable/selector_toobartext_color_white_blue"
+            android:textSize="16sp" />
+
+
+    </android.support.v7.widget.Toolbar>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="10dp"
+        android:background="@drawable/round_rectangle_shadow"
+        android:orientation="vertical"
+        android:paddingLeft="25dp"
+        android:paddingTop="55dp"
+        android:paddingRight="25dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:gravity="center_horizontal"
+            android:text="@string/register_form"
+            android:textColor="@color/darkerBlue"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+
+        <com.example.zhongzhoujianshe.ins.MyWidget.MyEditText
+            android:id="@+id/et_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="0"
+            app:input_hint="@string/email"
+            app:input_type="@string/email"
+            app:left_icon="@string/icon_email"
+            app:top_note_normal="@string/enter_email"
+            app:top_title="@string/email" />
+
+
+        <com.example.zhongzhoujianshe.ins.MyWidget.MyEditText
+            android:id="@+id/et_username"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="0"
+            app:input_hint="@string/username"
+            app:input_type="@string/txt"
+            app:left_icon="@string/icon_username"
+            app:top_note_normal="@string/enter_username"
+            app:top_title="@string/username" />
+
+
+        <com.example.zhongzhoujianshe.ins.MyWidget.MyEditText
+            android:id="@+id/et_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="0"
+            app:input_hint="@string/password"
+            app:input_type="@string/password"
+            app:left_icon="@string/icon_password"
+            app:top_note_normal="@string/enter_password"
+            app:top_title="@string/password" />
+
+
+        <com.example.zhongzhoujianshe.ins.MyWidget.MyRoundCornerButton
+            android:id="@+id/btn_register"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="40dp"
+            android:layout_marginRight="10dp"
+            android:text="@string/login" />
+
+
+    </LinearLayout>
+
+    <ProgressBar
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:id="@+id/progress_bar"
+        android:layout_centerInParent="true"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Please wait..."
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:layout_alignBottom="@+id/progressBar"
+        android:layout_alignRight="@+id/progressBar"
+        android:layout_alignLeft="@+id/progressBar"
+        android:id="@+id/loading"/>
+
+</RelativeLayout>
