@@ -73,41 +73,41 @@
 
 
         <Button
+            android:id="@+id/button_filter1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Saturation"
-            android:id="@+id/button_saturation"
             android:layout_below="@+id/button_crop"
-            android:layout_toLeftOf="@+id/button_engrave"
-            android:layout_toStartOf="@+id/button_engrave"
-            android:textColor="#ff33b5e5"
-            android:background="#ffffff"/>
+            android:layout_toLeftOf="@+id/button_filter2"
+            android:layout_toStartOf="@+id/button_filter2"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:text="Filter1"
+            android:textColor="#ff33b5e5" />
 
         <Button
+            android:id="@+id/button_filter2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Engrave"
-            android:layout_weight="1"
-            android:id="@+id/button_engrave"
+            android:layout_alignEnd="@+id/seekbar_brightness"
             android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/seekbar_brightness"
-            android:layout_alignEnd="@+id/seekbar_brightness"
-            android:textColor="#ff33b5e5"
-            android:background="#ffffff"/>
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:text="Filter2"
+            android:textColor="#ff33b5e5" />
 
         <Button
+            android:id="@+id/button_filter3"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color"
-            android:layout_weight="1"
-            android:id="@+id/button_color"
-            android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_toLeftOf="@+id/button_saturation"
-            android:layout_toStartOf="@+id/button_saturation"
-            android:textColor="#ff33b5e5"
-            android:background="#ffffff"/>
+            android:layout_alignParentRight="true"
+            android:layout_toLeftOf="@+id/button_filter1"
+            android:layout_toStartOf="@+id/button_filter1"
+            android:layout_weight="1"
+            android:background="#ffffff"
+            android:text="Filter3"
+            android:textColor="#ff33b5e5" />
     </LinearLayout>
 
 
