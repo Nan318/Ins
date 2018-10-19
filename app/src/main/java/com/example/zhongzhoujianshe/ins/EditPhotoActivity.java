@@ -42,7 +42,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
 
     static int progress_contrast = 0;
     static int progress_brightness = 0;
-    static int FILTER_STATIC = 0; // 0 represents no filters on, 1 one filter applied.
+    static int FILTER_STATIC = 0; 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,31 +57,14 @@ public class EditPhotoActivity extends AppCompatActivity  {
             matrix.setRotate(90);
             Bitmap dstbmp=Bitmap.createBitmap(rawBitmap,0,0,rawBitmap.getWidth(), rawBitmap.getHeight(),matrix,true);
             imageView.setImageBitmap(dstbmp);
-          //  rawBitmap = Bitmap.createScaledBitmap(rawBitmap, 640, 640, false);
-           // imageView.setImageBitmap(rawBitmap);
             newBitmap = dstbmp;
         }
 
         // Filters
-        btnFilter3 = (Button) findViewById(R.id.button_filter3);
         btnFilter1 = (Button) findViewById(R.id.button_filter1);
         btnFilter2 = (Button) findViewById(R.id.button_filter2);
+        btnFilter3 = (Button) findViewById(R.id.button_filter3);
         btnCrop = (Button) findViewById(R.id.button_crop);
-
-
-        btnFilter3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FILTER_STATIC == 1) {
-                    newBitmap = ImageProcessing.doColorFilter(rawBitmap, 0.5, 0.5, 0.5);
-                    imageView.setImageBitmap(newBitmap);
-                } else {
-                    newBitmap = ImageProcessing.doColorFilter(newBitmap, 0.5, 0.5, 0.5);
-                    imageView.setImageBitmap(newBitmap);
-                    FILTER_STATIC = 1;
-                }
-            }
-        });
 
         btnFilter1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,6 +93,21 @@ public class EditPhotoActivity extends AppCompatActivity  {
                 }
             }
         });
+        
+           btnFilter3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FILTER_STATIC == 1) {
+                    newBitmap = ImageProcessing.doColorFilter(rawBitmap, 0.5, 0.5, 0.5);
+                    imageView.setImageBitmap(newBitmap);
+                } else {
+                    newBitmap = ImageProcessing.doColorFilter(newBitmap, 0.5, 0.5, 0.5);
+                    imageView.setImageBitmap(newBitmap);
+                    FILTER_STATIC = 1;
+                }
+            }
+        });
+
 
         // Contrast & Brightness
         seekBarContrast = (SeekBar) findViewById(R.id.seekbar_contrast);
@@ -118,9 +116,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
         textview_brightness = (TextView) findViewById(R.id.textview_brightness);
 
 
-        // Listener for seekbar object
-        //Bug-fixed need to figure out how to change contrast of the picture on the fly
-        //Bug-fixed 2nd time return to editing, it will throw an error
+        // Seekbar object
         seekBarContrast.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -159,7 +155,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
         });
 
 
-        //listen for crop butten
+        //crop butten
         btnCrop.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -180,13 +176,8 @@ public class EditPhotoActivity extends AppCompatActivity  {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_next) {
+       if (id == R.id.action_next) {
             startNext();
             return true;
         }
@@ -211,12 +202,12 @@ public class EditPhotoActivity extends AppCompatActivity  {
             out.flush();
             out.close();
         } catch(FileNotFoundException e) {
-            Log.d("In Saving File", e + "");
+            Log.d("Saving File", e + "");
         } catch(IOException e) {
-            Log.d("In Saving File", e + "");
+            Log.d("Saving File", e + "");
         }
 
-        // Pass the new image to the next post view
+        // post photo
         Intent intent = new Intent();
         intent.putExtra("post_img", myImage.toString());
         intent.setClass(EditPhotoActivity.this, PostActivity.class);
