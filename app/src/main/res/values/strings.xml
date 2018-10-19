@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Ins</string>
+    <string name="title_activity_bluetooth_dialog">BluetoothDialog</string>
 </resources>
