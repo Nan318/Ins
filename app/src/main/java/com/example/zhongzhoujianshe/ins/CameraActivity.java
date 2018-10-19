@@ -32,7 +32,6 @@ import java.io.IOException;
 import java.util.List;
 
 
-/* Camera Activity implements the camera functionality of the app. */
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     private Camera camera = null;
@@ -45,7 +44,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
 
-    // On create, first initialize the view elements
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -76,14 +75,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             }
         });
 
-        // Button to Control FlashLight
+        // FlashLight
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
-        // BugFixed - when return with isChecked state, there is a error message on screen
-        // saying that camera isn't working properly, but does not affect the functioning
         btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    // The toggle is on
                     if (camera == null) {
                         camera = Camera.open();
                     }
@@ -93,7 +90,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     camera.setParameters(parameters);
                     camera.startPreview();
                 } else {
-                    // The toggle is disabled
+                    // The toggle is off
                     if (camera == null) {
                         camera = Camera.open();
                     }
@@ -106,8 +103,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             }
         });
 
-        // Button to Enter Gallery
-        // Bug-fixed need to access all the pictures
+        // Gallery
         btnGallery = (ImageButton) findViewById(R.id.button_gallery);
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,7 +194,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             camera = Camera.open();
         } catch(RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
-                    "not working properly, please try after sometime.", Toast.LENGTH_LONG).show();
+                    "not working, please try after sometime.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -211,7 +207,6 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
 
-    // Bug-fixed: out of memory error when go back and select photo 2nd time
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -226,7 +221,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                 e.printStackTrace();
             }
 
-            // Pass the new image to the next edit view
+            // edit photo
             Intent intent = new Intent();
             intent.setClass(CameraActivity.this, EditPhotoActivity.class);
             startActivity(intent);
