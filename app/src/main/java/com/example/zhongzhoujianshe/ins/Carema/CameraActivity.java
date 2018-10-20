@@ -72,10 +72,9 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                camera.takePicture(cameraShutterCallback,
-                        cameraPictureCallbackRaw,
-                        cameraPictureCallbackJpeg);
+                camera.takePicture(shutterCallback,
+                        rawCallback,
+                        pictureCallback);
 
             }
         });
@@ -135,21 +134,21 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
 
-    Camera.ShutterCallback cameraShutterCallback = new Camera.ShutterCallback(){
+    Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback(){
         @Override
         public void onShutter(){
 
         }
     };
 
-    Camera.PictureCallback cameraPictureCallbackRaw = new Camera.PictureCallback() {
+    Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
         }
     };
 
-    Camera.PictureCallback cameraPictureCallbackJpeg = new Camera.PictureCallback(){
+    Camera.PictureCallback pictureCallback = new Camera.PictureCallback(){
         @Override
         public void onPictureTaken(byte[] data, Camera camera){
             Bitmap cameraBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);

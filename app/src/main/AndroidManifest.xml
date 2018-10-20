@@ -52,7 +52,7 @@
         <activity android:name=".Discover.DiscoverActivity">
 
         </activity>
-        <activity android:name=".Home.HomeActivity">
+        <activity android:name=".Home.HomeMaue">
 
         </activity>
     </application>
