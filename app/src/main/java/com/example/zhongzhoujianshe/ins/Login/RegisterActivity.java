@@ -239,13 +239,10 @@ public class RegisterActivity extends AppCompatActivity {
     public void addNewUser(String email, String username, String description, String website, String profile_photo){
         Log.e("Add", "start add the user's information" );
 
-        User user = new User( userID, email, username);
-
-        mRef.child("users").child(userID).setValue(user);
 
         UserProfileModel profileModel = new UserProfileModel(description, username,
                 0, 0, 0, profile_photo, username,
-                website, userID
+                website, userID, email
         );
 
         mRef.child("user_setting").child(userID).setValue(profileModel);

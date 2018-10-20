@@ -15,6 +15,7 @@ import android.widget.ListView;
 
 import com.example.zhongzhoujianshe.ins.Discover.UserListAdapter;
 import com.example.zhongzhoujianshe.ins.Helper.User;
+import com.example.zhongzhoujianshe.ins.Helper.UserProfileModel;
 import com.example.zhongzhoujianshe.ins.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -38,7 +39,7 @@ public class DiscoveryFragment extends Fragment {
     private String currentUserId;
     private static final int ACTIVITY_NUM = 1;
     private Context mContext;
-    private ArrayList<User> userList;
+    private ArrayList<UserProfileModel> userList;
     private UserListAdapter mAdapter;
     //UI objects
     private EditText et_search;
@@ -75,6 +76,11 @@ public class DiscoveryFragment extends Fragment {
 
         Log.e("DISCOVER", "initTextListener: initializing");
 
+        //default: display recommended users
+        recommendUser();
+
+
+        //when input, start to search users and display them
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -86,11 +92,44 @@ public class DiscoveryFragment extends Fragment {
             public void afterTextChanged(Editable s) {
                 //String text = et_search.getText().toString().toLowerCase(Locale.getDefault());
                 String input = et_search.getText().toString();
-                searchUser(input);
+                if(input.equals("")){
+                    recommendUser();
+                }else {
+                    searchUser(input);
+                }
+
             }
         });
 
         return view;
+    }
+
+
+    private void recommendUser(){
+        Log.e("DISCOVER", "display recommended users");
+        userList.clear();
+
+        //update the users list view
+        //start at the input
+        Query filter = mRoot.child("user_setting")
+                .orderByChild("followers");
+        filter.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
+                    Log.d("DISCOVER", "onDataChange: found user:"
+                            + singleSnapshot.getValue(UserProfileModel.class).toString());
+
+                    userList.add(singleSnapshot.getValue(UserProfileModel.class));
+                    //update the users list view
+                    updateListView();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+            }
+        });
     }
 
     private void searchUser(String inputUsername){
@@ -104,7 +143,7 @@ public class DiscoveryFragment extends Fragment {
             //Query filter = mRoot.child("users").orderByChild("username").equalTo(inputUsername);
 
             //start at the input
-            Query filter = mRoot.child("users")
+            Query filter = mRoot.child("user_setting")
                     .orderByChild("username").startAt(inputUsername).endAt(inputUsername + "\uf8ff");
             filter.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -112,7 +151,7 @@ public class DiscoveryFragment extends Fragment {
                     for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
                         Log.d("DISCOVER", "onDataChange: found user:" + singleSnapshot.getValue(User.class).toString());
 
-                        userList.add(singleSnapshot.getValue(User.class));
+                        userList.add(singleSnapshot.getValue(UserProfileModel.class));
                         //update the users list view
                         updateListView();
                     }
