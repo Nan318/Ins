@@ -21,13 +21,13 @@
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Post to Instagram"
+            android:text="Post"
             android:id="@+id/button_post"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
             android:layout_below="@+id/thumbnail"
-            android:background="#ff33b5e5"
-            android:textColor="#ffffff"/>
+            android:background="#ffffff"
+            android:textColor="#3a3241"/>
 
         <Button
             android:id="@+id/button_back"
@@ -38,8 +38,8 @@
             android:layout_alignTop="@+id/button_post"
             android:layout_weight="1"
             android:background="#ffffff"
-            android:text="Back to Homepage"
-            android:textColor="#ff33b5e5" />
+            android:text="Homepage"
+            android:textColor="#3a3241" />
     </LinearLayout>
 
 
