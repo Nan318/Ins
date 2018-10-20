@@ -21,8 +21,8 @@ public class CropActivity extends AppCompatActivity {
     private Button btnBack = null;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onCreate(Bundle save) {
+        super.onCreate(save);
         setContentView(R.layout.activity_crop);
 
         crop = (CropProcessing) findViewById(R.id.crop_view);
