@@ -102,9 +102,10 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             }
         });
         /*btnFlash.setOnClickListener(new View.OnClickListener() {
+		boolean isChecked
 	            @Override
 	            public void onClick(View v) {
-	                if (isLighOn) {
+	                if (isChecked) {
 			if (camera == null) {
    			 camera = Camera.open();
 			}
@@ -113,15 +114,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 			Camera.Parameters p = camera.getParameters();
 
 	                    p.setFlashMode(Parameters.FLASH_MODE_OFF);
-	                    mCamera.setParameters(p);
-	                    mCamera.startPreview();
-	                    isLighOn = false;
+	                    camera.setParameters(p);
+	                    camera.startPreview();
+	                    isChecked = false;
 	                } else {
 	                    Log.i("info", "torch is turn on!");
 	                    p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-	                    mCamera.setParameters(p);
-	                    mCamera.startPreview();
-	                    isLighOn = true;
+	                    camera.setParameters(p);
+	                    camera.startPreview();
+	                    isChecked = true;
 	                }
 	            }
 	        });*/
