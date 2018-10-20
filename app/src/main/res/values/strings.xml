@@ -13,4 +13,8 @@
     <string name="enter_username">PLEASE ENTER YOUR USERNAME</string>
     <string name="search">Search</string>
     <string name="title_activity_bluetooth_dialog">BluetoothDialog</string>
+    <string name="title_activity_home_maue">HomeMaue</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_notifications">Notifications</string>
 </resources>
