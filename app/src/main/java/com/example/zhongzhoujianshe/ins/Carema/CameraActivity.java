@@ -68,9 +68,11 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                
                 camera.takePicture(cameraShutterCallback,
                         cameraPictureCallbackRaw,
                         cameraPictureCallbackJpeg);
+
             }
         });
 
@@ -80,52 +82,32 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
                     // The FlashLight is enabled
-                    if (camera == null) {
+                    try{
                         camera = Camera.open();
+                        Camera.Parameters parameters;
+                        parameters = camera.getParameters();
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
+                        camera.setParameters(parameters);
+                        camera.startPreview();
+
+                    } catch(Exception ex){
+                        Log.e("Failed",ex.getMessage());
                     }
-                    Camera.Parameters parameters = camera.getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
+
                 } else {
                     // The FlashLight is disabled
-                    if (camera == null) {
-                        camera = Camera.open();
+                    try{
+                        Camera.Parameters parameters;
+                        parameters = camera.getParameters();
+                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                        camera.setParameters(parameters);
+                        camera.release();
+                    } catch(Exception ex){
+                        Log.e("Failed",ex.getMessage());
                     }
-                    Camera.Parameters parameters = camera.getParameters();
-                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
-                    camera.setParameters(parameters);
-                    camera.startPreview();
                 }
             }
         });
-        /*btnFlash.setOnClickListener(new View.OnClickListener() {
-		boolean isChecked
-	            @Override
-	            public void onClick(View v) {
-	                if (isChecked) {
-			if (camera == null) {
-   			 camera = Camera.open();
-			}
-	                    Log.i("info", "torch is turn off!");
-
-			Camera.Parameters p = camera.getParameters();
-
-	                    p.setFlashMode(Parameters.FLASH_MODE_OFF);
-	                    camera.setParameters(p);
-	                    camera.startPreview();
-	                    isChecked = false;
-	                } else {
-	                    Log.i("info", "torch is turn on!");
-	                    p.setFlashMode(Parameters.FLASH_MODE_TORCH);
-	                    camera.setParameters(p);
-	                    camera.startPreview();
-	                    isChecked = true;
-	                }
-	            }
-	        });*/
 
         // select photo from Gallery
         btnGallery = (ImageButton) findViewById(R.id.button_gallery);
@@ -219,7 +201,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             camera = Camera.open();
         } catch(RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
-                    "not working, please try after sometime.", Toast.LENGTH_LONG).show();
+                    "not working, please later.", Toast.LENGTH_LONG).show();
         }
     }
 
