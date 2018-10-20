@@ -6,7 +6,7 @@
 
     <TextView
         android:id="@+id/text_contrast"
-        android:textColor="#ff33b5e5"
+        android:textColor="#3a3241"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
@@ -34,7 +34,7 @@
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/seekbar_contrast"
         android:layout_alignParentLeft="true"
-        android:textColor="#ff33b5e5"
+        android:textColor="#3a3241"
         android:layout_alignParentStart="true" />
 
     <SeekBar
@@ -69,7 +69,7 @@
             android:id="@+id/button_crop"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:textColor="#ff33b5e5"
+            android:textColor="#3a3241"
             android:background="#ffffff"
             />
 
@@ -84,7 +84,7 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:text="Filter1"
-            android:textColor="#ff33b5e5" />
+            android:textColor="#3a3241" />
 
         <Button
             android:id="@+id/button_filter2"
@@ -96,7 +96,7 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:text="Filter2"
-            android:textColor="#ff33b5e5" />
+            android:textColor="#3a3241" />
 
         <Button
             android:id="@+id/button_filter3"
@@ -109,7 +109,7 @@
             android:layout_weight="1"
             android:background="#ffffff"
             android:text="Filter3"
-            android:textColor="#ff33b5e5" />
+            android:textColor="#3a3241" />
     </LinearLayout>
 
     <Button
@@ -121,7 +121,7 @@
         android:layout_marginBottom="57dp"
         android:background="#ffffff"
         android:text="Next"
-        android:textColor="#ff33b5e5" />
+        android:textColor="#3a3241" />
 
 
 </RelativeLayout>

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.zhongzhoujianshe.ins.Carema.CropActivity">
 
-    <com.example.zhongzhoujianshe.ins.ImageProcess.CropView
+    <com.example.zhongzhoujianshe.ins.ImageProcess.CropProcessing
         android:id="@+id/crop_view"
         android:layout_width="640px"
         android:layout_height="640px"
@@ -22,18 +22,18 @@
             android:text="OK"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#ff33b5e5"
+            android:background="#3a3241"
             android:textColor="#ffffff"/>
 
         <Button
-            android:id="@+id/button_return"
+            android:id="@+id/button_back"
             android:layout_width="0dp"
             android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Return"
+            android:text="Back"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:textColor="#ff33b5e5"
+            android:textColor="#3a3241"
             android:background="#ffffff"/>
     </LinearLayout>
 

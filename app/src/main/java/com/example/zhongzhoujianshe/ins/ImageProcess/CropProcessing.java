@@ -15,7 +15,7 @@ import android.view.MotionEvent;
 
 
 
-public class CropView extends android.support.v7.widget.AppCompatImageView {
+public class CropProcessing extends android.support.v7.widget.AppCompatImageView {
     Paint paint = new Paint();
     private static Point leftTop, rightBottom, center, previous;
 
@@ -26,17 +26,17 @@ public class CropView extends android.support.v7.widget.AppCompatImageView {
     private static final int BOTTOM= 4;
 
     // Adding parent class constructors
-    public CropView(Context context) {
+    public CropProcessing(Context context) {
         super(context);
         initCropView();
     }
 
-    public CropView(Context context, AttributeSet attrs) {
+    public CropProcessing(Context context, AttributeSet attrs) {
         super(context, attrs, 0);
         initCropView();
     }
 
-    public CropView(Context context, AttributeSet attrs, int defStyle) {
+    public CropProcessing(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         initCropView();
     }

@@ -1,4 +1,4 @@
-package com.example.zhongzhoujianshe.ins.Carema;
+package com.example.zhongzhoujianshe.ins;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -22,32 +22,31 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
-
-import com.example.zhongzhoujianshe.ins.Home.HomeActivity;
+import android.hardware.Camera.Parameters;
 import com.example.zhongzhoujianshe.ins.ImageProcess.BitmapStore;
-import com.example.zhongzhoujianshe.ins.PostActivity;
-import com.example.zhongzhoujianshe.ins.R;
+import com.example.zhongzhoujianshe.ins.Carema.EditPhotoActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-//Camera activity to take photos and select photo from phone gallery
-public class CameraActivity extends Activity implements SurfaceHolder.Callback {
+
+/* Camera Activity implements the camera functionality of the app. */
+public class MainActivity extends Activity implements SurfaceHolder.Callback {
 
     private Camera camera = null;
     private SurfaceView cameraSurfaceView = null;
     private SurfaceHolder cameraSurfaceHolder = null;
     private boolean previewing = false;
+    private boolean isLighOn = false;
     RelativeLayout relativeLayout;
 
     private Button btnCapture = null;
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
-    private Button btnHome =null;
 
-    //initialize
+    // On create, first initialize the view elements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -55,7 +54,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // take photo
+        // Button to Capture:
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
@@ -72,55 +71,74 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                camera.takePicture(shutterCallback,
-                        rawCallback,
-                        pictureCallback);
-
+                camera.takePicture(cameraShutterCallback,
+                        cameraPictureCallbackRaw,
+                        cameraPictureCallbackJpeg);
             }
         });
 
-        btnHome = (Button) findViewById(R.id.button_home);
-        btnHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(CameraActivity.this, HomeActivity.class);
-                startActivity(intent);
-            }
-        });
-        // open FlashLight
+        // Button to Control FlashLight
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
-        btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        // BugFixed - when return with isChecked state, there is a error message on screen
+        // saying that camera isn't working properly, but does not affect the functioning
+      /*  btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The FlashLight is enabled
-                    try{
+                    // The toggle is enabled
+                    if (camera == null) {
                         camera = Camera.open();
-                        Camera.Parameters parameters;
-                        parameters = camera.getParameters();
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_TORCH);
-                        camera.setParameters(parameters);
-                        camera.startPreview();
-
-                    } catch(Exception ex){
-                        Log.e("Failed",ex.getMessage());
                     }
-
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_ON);
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_PICTURE);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
                 } else {
-                    // The FlashLight is disabled
-                    try{
-                        Camera.Parameters parameters;
-                        parameters = camera.getParameters();
-                        parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
-                        camera.setParameters(parameters);
-                        camera.release();
-                    } catch(Exception ex){
-                        Log.e("Failed",ex.getMessage());
+                    // The toggle is disabled
+                    if (camera == null) {
+                        camera = Camera.open();
                     }
+                    Camera.Parameters parameters = camera.getParameters();
+                    parameters.setFlashMode(Camera.Parameters.FLASH_MODE_OFF);
+                    parameters.setFocusMode(Camera.Parameters.FOCUS_MODE_AUTO);
+                    camera.setParameters(parameters);
+                    camera.startPreview();
                 }
             }
+        });*/
+
+        btnFlash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Camera.Parameters p = camera.getParameters();
+                if (isLighOn) {
+
+                    Log.i("info", "torch is turn off!");
+
+                    p.setFlashMode(Parameters.FLASH_MODE_OFF);
+                    p.setPreviewSize(1920, 1080);
+                    camera.setParameters(p);
+                    camera.startPreview();
+                    camera.release();
+                    isLighOn = false;
+                } else {
+                    Log.i("info", "torch is turn on!");
+                    p.setFlashMode(Parameters.FLASH_MODE_TORCH);
+                    p.setPreviewSize(1920, 1080);
+                    camera.setParameters(p);
+                    camera.startPreview();
+                    camera.release();
+                    isLighOn = true;
+
+
+                }
+            }
+
+
         });
 
-        // select photo from Gallery
+        // Button to Enter Gallery
+        // Bug-fixed need to access all the pictures
         btnGallery = (ImageButton) findViewById(R.id.button_gallery);
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -134,32 +152,32 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
 
-    Camera.ShutterCallback shutterCallback = new Camera.ShutterCallback(){
+    Camera.ShutterCallback cameraShutterCallback = new Camera.ShutterCallback(){
         @Override
         public void onShutter(){
 
         }
     };
 
-    Camera.PictureCallback rawCallback = new Camera.PictureCallback() {
+    Camera.PictureCallback cameraPictureCallbackRaw = new Camera.PictureCallback() {
         @Override
         public void onPictureTaken(byte[] data, Camera camera) {
 
         }
     };
 
-    Camera.PictureCallback pictureCallback = new Camera.PictureCallback(){
+    Camera.PictureCallback cameraPictureCallbackJpeg = new Camera.PictureCallback(){
         @Override
         public void onPictureTaken(byte[] data, Camera camera){
             Bitmap cameraBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-            //save
+
             File storagePath = new File(Environment.getExternalStorageDirectory()
                     + "/DCIM/100ANDRO/");
             storagePath.mkdirs();
 
-            File newImage = new File(storagePath, Long.toString(System.currentTimeMillis()) + ".jpg");
+            File myImage = new File(storagePath, Long.toString(System.currentTimeMillis()) + ".jpg");
             try {
-                FileOutputStream out = new FileOutputStream(newImage);
+                FileOutputStream out = new FileOutputStream(myImage);
                 cameraBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
                 out.flush();
@@ -169,20 +187,19 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             } catch(IOException e) {
                 Log.d("In Saving File", e + "");
             }
-
-            // save photo to the gallery
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newImage)));
+            // Send the image file to the gallery
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(myImage)));
 
             // Pass the new image to the next edit view
             BitmapStore.setBitmap(cameraBitmap);
             Intent intent = new Intent();
-            intent.setClass(CameraActivity.this, EditPhotoActivity.class);
+            intent.setClass(MainActivity.this, EditPhotoActivity.class);
             startActivity(intent);
         }
     };
 
     @Override
-    public void surfaceChanged(SurfaceHolder surfaceholder, int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         if(previewing) {
             camera.stopPreview();
             previewing = false;
@@ -206,14 +223,13 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
     }
 
-    //information of exception
     @Override
-    public void surfaceCreated(SurfaceHolder surfaceholder) {
+    public void surfaceCreated(SurfaceHolder holder) {
         try {
             camera = Camera.open();
         } catch(RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
-                    "not working, please try after sometime.", Toast.LENGTH_LONG).show();
+                    "not working properly, please try after sometime.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -226,22 +242,24 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     }
 
 
+    // Bug-fixed: out of memory error when go back and select photo 2nd time
     @Override
-    protected void onActivityResult(int request, int result, Intent data) {
-        super.onActivityResult(request, result, data);
-        if(result == RESULT_OK){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode == RESULT_OK){
             Uri selectedImage = data.getData();
 
             try{
-                Bitmap newSelectedImage = BitmapFactory.decodeStream(
+                Bitmap yourSelectedImage = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(selectedImage));
-                BitmapStore.setBitmap(newSelectedImage);
+                BitmapStore.setBitmap(yourSelectedImage);
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }
 
+            // Pass the new image to the next edit view
             Intent intent = new Intent();
-            intent.setClass(CameraActivity.this, EditPhotoActivity.class);
+            intent.setClass(MainActivity.this, EditPhotoActivity.class);
             startActivity(intent);
         }
     }

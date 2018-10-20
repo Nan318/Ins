@@ -41,16 +41,16 @@
         </activity>
         <activity android:name=".Login.RegisterActivity">
         </activity>
-        <activity android:name=".Carema.CameraActivity" />
+        <activity android:name=".Carema.CameraActivity" >
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>        </activity>
         <activity android:name=".Carema.EditPhotoActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".Carema.CropActivity" />
         <activity android:name=".Discover.DiscoverActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity android:name=".Home.HomeActivity">
 
