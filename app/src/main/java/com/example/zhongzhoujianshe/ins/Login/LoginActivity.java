@@ -69,7 +69,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {// User is signed in
-                    Log.e("TAG", "onAuthStateChanged:signed_in:" + user.getUid());
+                    Log.e("onAuthStateChanged", ":signed_in:" + user.getUid());
 
                     Intent intent = new Intent(LoginActivity.this, DiscoverActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
                     finish();
 
                 }else {// User is signed out
-                    Log.e("TAG", "onAuthStateChanged:signed_out");
+                    Log.e("onAuthStateChanged", ":signed_out");
                 }
             }
 
@@ -132,7 +132,8 @@ public class LoginActivity extends AppCompatActivity {
         String password = et_password.getEtText();
 
         if(email.equals("") || password.equals("")){
-            Toast.makeText(mContext, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext,
+                    "All the fields should be completed", Toast.LENGTH_SHORT).show();
             return;
         }
         mPleaseWait.setVisibility(View.VISIBLE);
@@ -146,25 +147,13 @@ public class LoginActivity extends AppCompatActivity {
                 if (!task.isSuccessful()) { //fail to login
                     mProgressBar.setVisibility(View.GONE);
                     mPleaseWait.setVisibility(View.GONE);
-                    Toast.makeText(LoginActivity.this, "Authentication failed.",
+                    Toast.makeText(LoginActivity.this,
+                            "Login failed. Invalid account",
                             Toast.LENGTH_SHORT).show();
                 }else {
-                    try{
-                        if(user.isEmailVerified()){
-                            Log.e("LOGIN", "email is verified.");
-                            Intent intent = new Intent(LoginActivity.this, DiscoverActivity.class);
-                            startActivity(intent);
-                        }else{
-                            Toast.makeText(mContext, "Please verify your email", Toast.LENGTH_SHORT).show();
-                            mProgressBar.setVisibility(View.GONE);
-                            mPleaseWait.setVisibility(View.GONE);
-                            mAuth.signOut();
-                        }
-
-                    }catch (NullPointerException e){
-                        Log.e("LOGIN", "onComplete: NullPointerException: " + e.getMessage() );
-                    }
-
+                    Toast.makeText(LoginActivity.this,
+                            "Login succeed",
+                            Toast.LENGTH_SHORT).show();
                 }
             }
         });

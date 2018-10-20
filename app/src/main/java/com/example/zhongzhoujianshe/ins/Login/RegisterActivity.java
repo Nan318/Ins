@@ -41,7 +41,6 @@ public class RegisterActivity extends AppCompatActivity {
     private MyEditText et_password;
     private MyEditText et_username;
     private MyRoundCornerButton btn_register;
-    private Button btnRegister;
     // Firebase instance variables
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
@@ -89,21 +88,6 @@ public class RegisterActivity extends AppCompatActivity {
                 if (user != null) {// User is signed in
                     userID = user.getUid();
                     Log.e("TAG", "onAuthStateChanged:signed_in:" + userID);
-
-                    mRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            checkUsrnameExists(usrname);
-                        }
-
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    finish();
-                    mAuth.signOut();
 
                 }else {// User is signed out
                     Log.e("TAG", "onAuthStateChanged:signed_out");
@@ -173,16 +157,24 @@ public class RegisterActivity extends AppCompatActivity {
 
     }
 
-    private void registerUsr(String email, String usrname, String psw) {
+    private void registerUsr(String email, final String usrname, String psw) {
+        mAuth = FirebaseAuth.getInstance();
         mAuth.createUserWithEmailAndPassword(email, psw)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            Log.e("CreateUserWithEmail", " success");
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                            Log.e("Create account", " success");
+                            //FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                            Toast.makeText(mContext, "Successfully register, login now ~",
+                                    Toast.LENGTH_SHORT).show();
+
+                            checkUsrnameExists(usrname);
+                            Log.e("CheckExist", "end check");
+                            /*
+                            //ignore email verification
                             if(user != null){
                                 user.sendEmailVerification()
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -196,10 +188,10 @@ public class RegisterActivity extends AppCompatActivity {
                                                 }
                                             }
                                         });
-                            }
+                            }*/
                         } else {
                             // If sign in fails, display a message to the user.
-                            Toast.makeText(mContext, "Authentication failed.",
+                            Toast.makeText(mContext, "Create accound failed.",
                                     Toast.LENGTH_SHORT).show();
                         }
 
@@ -209,27 +201,35 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     private void checkUsrnameExists(final String username) {
-        DatabaseReference reference = FirebaseDatabase.getInstance().getReference();
+        Log.e("CheckExist", "start check username exist?");
+        mRef = FirebaseDatabase.getInstance().getReference();
         //search among the registered usernames
-        Query query = reference.child("users").orderByChild("username").equalTo(username);
+        Query query = mRef.child("users").orderByChild("username").equalTo(username);
         query.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
                 for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
                     if (singleSnapshot.exists()){
-                        append = mRef.push().getKey().substring(3,10);
-                        Log.e("ExistUname", "add random string to name: " + append);
+                        append = "_" + mRef.push().getKey().substring(3,10);
+                        Log.e("ExistUname", "add random string: " + append);
                     }
                 }
 
-                String mUsername = "";
-                mUsername = username + "_" + append;
+                String newUsername = "";
+                newUsername = username + append;
+
 
                 //add new user to the database
-                addNewUser(email, mUsername, "", "", "");
-                Toast.makeText(mContext, "Successful. Please verify your email.",
+                addNewUser(email, newUsername, "", "", "");
+
+                Log.e("Add", "add end" );
+                /*
+                Toast.makeText(mContext, "Successful add information",
                         Toast.LENGTH_SHORT).show();
+                        */
+                //leave register activity, back to login page
+                finish();
                 mAuth.signOut();
             }
 
@@ -241,6 +241,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
     public void addNewUser(String email, String username, String description, String website, String profile_photo){
+        Log.e("Add", "start add the user's information" );
 
         User user = new User( userID, email, username);
 
