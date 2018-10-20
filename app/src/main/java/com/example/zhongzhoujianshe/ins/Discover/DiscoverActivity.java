@@ -3,12 +3,12 @@ package com.example.zhongzhoujianshe.ins.Discover;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
@@ -16,14 +16,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.zhongzhoujianshe.ins.Helper.User;
 
 import com.example.zhongzhoujianshe.ins.Login.LoginActivity;
 import com.example.zhongzhoujianshe.ins.R;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -38,17 +36,18 @@ public class DiscoverActivity extends AppCompatActivity {
     // Firebase instance variables
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private FirebaseDatabase mDb;
-    private DatabaseReference mRef;
+    //private FirebaseDatabase mDb;
+    private DatabaseReference mRoot;
     //variable
     private String currentUserId;
     private static final int ACTIVITY_NUM = 1;
     private Context mContext;
-    private List<User> userList;
+    private ArrayList<User> userList;
     private UserListAdapter mAdapter;
     //UI objects
     private EditText et_search;
     private ListView listView;
+    private BottomNavigationView bnv;
 
 
 
@@ -58,10 +57,12 @@ public class DiscoverActivity extends AppCompatActivity {
         setContentView(R.layout.activity_discover);
 
         mContext = DiscoverActivity.this;
+        mRoot = FirebaseDatabase.getInstance().getReference();
 
+        /* * * * * test sign out * * * * * */
 
-
-        Button btn = findViewById(R.id.button);
+        /*
+        Button btn = findViewById(R.id.signout);
         btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -72,12 +73,11 @@ public class DiscoverActivity extends AppCompatActivity {
                 //intent.putExtra("Name", "feng88724");
                 startActivity(intent);
             }
-        });
+        });*/
 
         /* * * * * initialize view * * * * * */
+        initialView();
 
-        et_search = (EditText) findViewById(R.id.search);
-        listView = (ListView) findViewById(R.id.listView);
         //Log.e("DISCOVER", "onCreate: started.");
 
         //hide SoftKeyboard
@@ -92,7 +92,7 @@ public class DiscoverActivity extends AppCompatActivity {
 
         Log.e("DISCOVER", "initTextListener: initializing");
 
-        userList = new ArrayList<>();
+
 
         et_search.addTextChangedListener(new TextWatcher() {
             @Override
@@ -104,23 +104,36 @@ public class DiscoverActivity extends AppCompatActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 //String text = et_search.getText().toString().toLowerCase(Locale.getDefault());
-                String text = et_search.getText().toString();
-                searchForMatch(text);
+                String input = et_search.getText().toString();
+                searchUser(input);
             }
         });
 
 
     }
 
-    private void searchForMatch(String keyword){
-        Log.e("DISCOVER", "searchForMatch: searching for a match: " + keyword);
+    public void initialView(){
+        bnv = (BottomNavigationView) findViewById(R.id.bottom_nv);
+        setBottomNavi();  //set bottom navigation
+
+        et_search = (EditText) findViewById(R.id.et_search);
+        listView = (ListView) findViewById(R.id.listview);
+
+        userList = new ArrayList<>();
+
+
+
+    }
+
+    private void searchUser(String inputUsername){
+        Log.e("DISCOVER", "start searching for user: " + inputUsername);
         userList.clear();
         //update the users list view
-        if(keyword.length() != 0){
-            DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
-            Query query = mRef.child("users")
-                    .orderByChild("username").equalTo(keyword);
-            query.addListenerForSingleValueEvent(new ValueEventListener() {
+        if(inputUsername.length() != 0){
+            //search
+            Query filter = mRoot.child("users")
+                    .orderByChild("username").equalTo(inputUsername);
+            filter.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
@@ -142,7 +155,7 @@ public class DiscoverActivity extends AppCompatActivity {
     //update the list view
     //i.e. show the user list
     private void updateListView(){
-        Log.e("DISCOVER", "updateListView: updating users list");
+        Log.e("DISCOVER", "start updating users list");
 
         //mAdapter = new UserListAdapter(DiscoverActivity.this, R.layout.layout_user_listitem, userList);
 
@@ -163,6 +176,48 @@ public class DiscoverActivity extends AppCompatActivity {
                 Log.e("NAVIGATION", "go to Profile");
             }
         });
+    }
+
+    //set bottom navigation view
+    public void setBottomNavi(){
+        //final Button bbb = (Button) findViewById(R.id.signout);
+
+        //set click
+        bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(
+                    @NonNull
+                            MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.ic_home:
+                       // bbb.setText(item.getTitle());
+                        Log.e("ClickNav", "click ic_home");
+                        break;
+                    case R.id.ic_search:
+                      //  bbb.setText(item.getTitle());
+                        Log.e("ClickNav", "click ic_search");
+                        break;
+                    case R.id.ic_add:
+                       // bbb.setText(item.getTitle());
+                        Log.e("ClickNav", "click ic_add");
+                        break;
+                    case R.id.ic_follow:
+                       // bbb.setText(item.getTitle());
+                        Log.e("ClickNav", "click ic_follow");
+                        break;
+                    case R.id.ic_profile:
+                       // bbb.setText(item.getTitle());
+                        Log.e("ClickNav", "click ic_profile");
+                        break;
+                }
+
+                return true;
+
+            }
+        });
+        //set default: choose home
+        bnv.getMenu().getItem(0).setChecked(true);
+
     }
 
 

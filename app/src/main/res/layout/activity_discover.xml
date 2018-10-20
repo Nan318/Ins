@@ -6,65 +6,52 @@
     android:layout_height="match_parent"
     tools:context=".Discover.DiscoverActivity">
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
-    <RelativeLayout
+    <EditText
+        android:id="@+id/et_search"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerVertical="false"
+        android:layout_margin="5dp"
+        android:background="#f3e6e4e4"
+        android:drawableLeft="@drawable/ic_search"
+        android:gravity="start"
+        android:hint="@string/search"
+        android:inputType="text"
+        android:paddingLeft="4dp"
+        android:paddingTop="3dp"
+        android:paddingBottom="3dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/light_gray"
+        android:textSize="18sp" />
 
-        <RelativeLayout
-            android:id="@+id/relLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_below="@+id/et_search"
+        android:layout_alignParentBottom="false"
+        android:background="@color/light_gray" />
 
-            <android.support.design.widget.AppBarLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@drawable/white_grey_border_bottom">
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/bottom_nv"
+        android:layout_below="@+id/line" />
 
-                <android.support.v7.widget.Toolbar
-                    android:id="@+id/profileToolBar"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingStart="10dp"
-                    android:paddingEnd="5dp">
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/bottom_nv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/white_grey_border_top"
+        android:visibility="visible"
+        app:itemIconTint="@drawable/selector_bottom_navi_color"
+        app:labelVisibilityMode="unlabeled"
+        app:menu="@menu/menu_bottom_navigation">
 
-                    <EditText
-                        android:id="@+id/search"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_centerVertical="true"
-                        android:background="#f3e6e4e4"
-                        android:drawableLeft="@drawable/ic_search"
-                        android:gravity="start"
-                        android:hint="@string/search"
-                        android:inputType="text"
-                        android:paddingLeft="4dp"
-                        android:paddingTop="3dp"
-                        android:paddingBottom="3dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/light_gray"
-                        android:textSize="18sp" />
-
-                </android.support.v7.widget.Toolbar>
-            </android.support.design.widget.AppBarLayout>
-
-        </RelativeLayout>
-
-        <ListView
-            android:id="@+id/listView"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="5dp">
-
-        </ListView>
-
-    </RelativeLayout>
-
+    </android.support.design.widget.BottomNavigationView>
 
 
 </RelativeLayout>

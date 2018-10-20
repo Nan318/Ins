@@ -21,6 +21,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -31,10 +32,10 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserListAdapter extends BaseAdapter {
 
-    private List<User> users = null;
+    private ArrayList<User> users = null;
     private Context mContext;
 
-    public UserListAdapter(@NonNull Context context, @NonNull List<User> users) {
+    public UserListAdapter(@NonNull Context context, @NonNull ArrayList<User> users) {
         this.mContext = context;
         this.users = users;
     }
@@ -86,18 +87,25 @@ public class UserListAdapter extends BaseAdapter {
         holder.txt_email.setText(getItem(position).getEmail());
         String itemUserId = getItem(position).getUserId();
 
-        DatabaseReference mRef = FirebaseDatabase.getInstance().getReference();
-        Query query = mRef.child("user_setting").orderByChild("userId").equalTo(itemUserId);
+        DatabaseReference mRoot = FirebaseDatabase.getInstance().getReference();
+        Query filter = mRoot.child("user_setting").orderByChild("userId").equalTo(itemUserId);
         //display profile photo for user
-        query.addListenerForSingleValueEvent(new ValueEventListener() {
+        filter.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot singleSnapshot: dataSnapshot.getChildren()){
 
-                    ImageLoader imageLoader = ImageLoader.getInstance();
+                    String profilePhoto = singleSnapshot
+                            .getValue(UserProfileModel.class).getProfilePhoto();
 
-                    imageLoader.displayImage(singleSnapshot.getValue(UserProfileModel.class).getProfilePhoto(),
-                            holder.profilePhoto);
+                    if (!profilePhoto.equals("")){
+                        ImageLoader imageLoader = ImageLoader.getInstance();
+                        imageLoader.displayImage(profilePhoto, holder.profilePhoto);
+                    }else {
+                        Log.e("DISPLAY PHOTO", "no photo was added");
+                    }
+
+
                 }
             }
 

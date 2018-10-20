@@ -7,7 +7,7 @@
     <color name="aaa">#0bccc9</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
-    <color name="light_gray">#bcbaba</color>
+    <color name="light_gray">#e4e2e2</color>
     <color name="gray">#807f80</color>
     <color name="darker_gray">#666566</color>
     <color name="yellow">#f8d34a</color>
@@ -26,5 +26,7 @@
     <color name="orange">#f29b5f</color>
     <color name="darkOrange">#d8833b</color>
     <color name="darkerBlue">#102132</color>
+    <color name="transparent">#00000000</color>
+    <color name="lighterOrange">#f6c486</color>
 
 </resources>

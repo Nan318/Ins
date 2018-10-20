@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -58,6 +59,7 @@ public class LoginActivity extends AppCompatActivity {
         /* * * * * initialize view * * * * * */
 
         initialView();
+
 
         /* * * * * firebase * * * * * */
 
@@ -111,8 +113,7 @@ public class LoginActivity extends AppCompatActivity {
         btn_login.setBackColorSelected(getResources().getColor(R.color.orange));
         btn_login.setTextColori(getResources().getColor(R.color.orange));
         btn_login.setTextColorSelected(getResources().getColor(R.color.darkerBlue));
-
-
+        btn_login.setText(getResources().getString(R.string.login));
         //sign up?
         TextView register = (TextView) findViewById(R.id.register);
         register.setOnClickListener(new View.OnClickListener() {
@@ -159,5 +160,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+
 
 }

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -74,6 +75,7 @@ public class RegisterActivity extends AppCompatActivity {
         /* * * * * initialize view * * * * * */
         initialView();
 
+
         /* * * * * firebase * * * * * */
 
         //Get Firebase auth instance
@@ -107,7 +109,8 @@ public class RegisterActivity extends AppCompatActivity {
                 psw = et_password.getEtText();
 
                 if(email.equals("") || usrname.equals("") || psw.equals("")){
-                    Toast.makeText(mContext, "Please fill out all the fields", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext,
+                            "Please fill out all the fields", Toast.LENGTH_SHORT).show();
                 }else{
                     registerUsr(email, usrname, psw);
                 }
