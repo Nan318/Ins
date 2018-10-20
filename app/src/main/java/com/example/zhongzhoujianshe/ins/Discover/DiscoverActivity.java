@@ -192,14 +192,17 @@ public class DiscoverActivity extends AppCompatActivity {
                     case R.id.ic_home:
                        // bbb.setText(item.getTitle());
                         Log.e("ClickNav", "click ic_home");
+                        item.setIcon(R.drawable.ic_home_press);
                         break;
                     case R.id.ic_search:
                       //  bbb.setText(item.getTitle());
+                        item.setIcon(R.drawable.ic_search_press);
                         Log.e("ClickNav", "click ic_search");
                         break;
                     case R.id.ic_add:
                        // bbb.setText(item.getTitle());
                         Log.e("ClickNav", "click ic_add");
+                        item.setIcon(R.drawable.ic_add_press);
                         break;
                     case R.id.ic_follow:
                        // bbb.setText(item.getTitle());
