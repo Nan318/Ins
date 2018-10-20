@@ -36,6 +36,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
     private Button btnFilter2 = null;
     private Button btnFilter3 = null;
     private Button btnCrop = null;
+    private Button btnNext = null;
     private SeekBar seekBarContrast = null;
     private SeekBar seekBarBrightness = null;
     private TextView textview_contrast = null;
@@ -68,7 +69,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
         btnFilter1 = (Button) findViewById(R.id.button_filter1);
         btnFilter2 = (Button) findViewById(R.id.button_filter2);
         btnCrop = (Button) findViewById(R.id.button_crop);
-
+        btnNext = (Button) findViewById(R.id.button2);
         //filter one
         btnFilter1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +170,17 @@ public class EditPhotoActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BitmapStore.setBitmap(newBitmap);
+
+                Intent intent = new Intent(EditPhotoActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
