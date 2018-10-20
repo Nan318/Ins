@@ -2,19 +2,16 @@ package com.example.zhongzhoujianshe.ins.Login;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.zhongzhoujianshe.ins.Discover.DiscoverActivity;
+import com.example.zhongzhoujianshe.ins.Home.HomeActivity;
 import com.example.zhongzhoujianshe.ins.MyWidget.MyEditText;
 import com.example.zhongzhoujianshe.ins.MyWidget.MyRoundCornerButton;
 import com.example.zhongzhoujianshe.ins.R;
@@ -73,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (user != null) {// User is signed in
                     Log.e("onAuthStateChanged", ":signed_in:" + user.getUid());
 
-                    Intent intent = new Intent(LoginActivity.this, DiscoverActivity.class);
+                    Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                     intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
                     finish();
