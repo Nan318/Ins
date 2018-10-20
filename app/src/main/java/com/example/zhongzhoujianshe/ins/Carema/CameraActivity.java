@@ -22,7 +22,10 @@ import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
 import android.widget.ToggleButton;
+
+import com.example.zhongzhoujianshe.ins.Home.HomeActivity;
 import com.example.zhongzhoujianshe.ins.ImageProcess.BitmapStore;
+import com.example.zhongzhoujianshe.ins.PostActivity;
 import com.example.zhongzhoujianshe.ins.R;
 
 import java.io.File;
@@ -42,6 +45,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private Button btnCapture = null;
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
+    private Button btnHome =null;
 
     //initialize
     @Override
@@ -68,7 +72,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         btnCapture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+
                 camera.takePicture(cameraShutterCallback,
                         cameraPictureCallbackRaw,
                         cameraPictureCallbackJpeg);
@@ -76,6 +80,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             }
         });
 
+        btnHome = (Button) findViewById(R.id.button_home);
+        btnHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(CameraActivity.this, HomeActivity.class);
+                startActivity(intent);
+            }
+        });
         // open FlashLight
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
         btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -158,6 +170,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             } catch(IOException e) {
                 Log.d("In Saving File", e + "");
             }
+
             // save photo to the gallery
             sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newImage)));
 
@@ -201,7 +214,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             camera = Camera.open();
         } catch(RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
-                    "not working, please later.", Toast.LENGTH_LONG).show();
+                    "not working, please try after sometime.", Toast.LENGTH_LONG).show();
         }
     }
 
