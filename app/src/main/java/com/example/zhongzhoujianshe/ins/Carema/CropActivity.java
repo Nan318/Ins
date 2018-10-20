@@ -13,7 +13,7 @@ import com.example.zhongzhoujianshe.ins.R;
 
 public class CropActivity extends AppCompatActivity {
 
-    private Bitmap rawBitmap = null;
+    private Bitmap newBitmap = null;
     private Bitmap cropBitmap = null;
     private CropView cropview = null;
 
@@ -29,10 +29,10 @@ public class CropActivity extends AppCompatActivity {
         Intent intent = getIntent();
         //Get crop image
         if (intent != null) {
-            rawBitmap = BitmapStore.getBitmap();
-            cropview.setImageBitmap(rawBitmap);
+            newBitmap = BitmapStore.getBitmap();
+            cropview.setImageBitmap(newBitmap);
         }
-
+        //ok with the crop image
         btnOK = (Button) findViewById(R.id.button_ok);
         btnOK.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -41,7 +41,7 @@ public class CropActivity extends AppCompatActivity {
                 cropview.setImageBitmap(cropBitmap);
             }
         });
-
+        //back to the previous page
         btnReturn = (Button) findViewById(R.id.button_return);
         btnReturn.setOnClickListener(new View.OnClickListener() {
             @Override
