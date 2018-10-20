@@ -122,13 +122,13 @@ public class ImageProcessing {
 
     // Engrave Filter
     public static Bitmap engrave(Bitmap src) {
-        ConvolutionMatrix convMatrix = new ConvolutionMatrix(3);
-        convMatrix.setAll(0);
-        convMatrix.Matrix[0][0] = -2;
-        convMatrix.Matrix[1][1] = 2;
-        convMatrix.Factor = 1;
-        convMatrix.Offset = 95;
-        return ConvolutionMatrix.computeConvolution3x3(src, convMatrix);
+        mAtrix matrix = new mAtrix(3);
+        matrix.setAll(0);
+        matrix.Matrix[0][0] = -2;
+        matrix.Matrix[1][1] = 2;
+        matrix.Factor = 1;
+        matrix.Offset = 95;
+        return mAtrix.computeConvolution3x3(src, matrix);
     }
 }
 

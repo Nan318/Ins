@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 
 
-public class ConvolutionMatrix
+public class mAtrix
 {
     public static final int SIZE = 3;
 
@@ -13,7 +13,7 @@ public class ConvolutionMatrix
     public double Factor = 1;
     public double Offset = 1;
 
-    public ConvolutionMatrix(int size) {
+    public mAtrix(int size) {
         Matrix = new double[size][size];
     }
 
@@ -33,7 +33,7 @@ public class ConvolutionMatrix
         }
     }
 
-    public static Bitmap computeConvolution3x3(Bitmap src, ConvolutionMatrix matrix) {
+    public static Bitmap computeConvolution3x3(Bitmap src, mAtrix matrix) {
         int width = src.getWidth();
         int height = src.getHeight();
         Bitmap result = Bitmap.createBitmap(width, height, src.getConfig());

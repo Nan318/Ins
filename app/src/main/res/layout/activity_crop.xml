@@ -7,9 +7,9 @@
     <com.example.zhongzhoujianshe.ins.ImageProcess.CropProcessing
         android:id="@+id/crop_view"
         android:layout_width="640px"
-        android:layout_height="640px"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"/>
+        android:layout_height="840px"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true" />
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -22,8 +22,8 @@
             android:text="OK"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:background="#3a3241"
-            android:textColor="#ffffff"/>
+            android:textColor="#3a3241"
+            android:background="#ffffff"/>
 
         <Button
             android:id="@+id/button_back"

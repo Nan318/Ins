@@ -21,9 +21,9 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
 
     private static final int DRAG= 0;
     private static final int LEFT= 1;
-    private static final int TOP= 2;
+    private static final int UP= 2;
     private static final int RIGHT= 3;
-    private static final int BOTTOM= 4;
+    private static final int DOWN = 4;
 
     // Adding parent class constructors
     public CropProcessing(Context context) {
@@ -59,7 +59,7 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
                 break;
             case MotionEvent.ACTION_MOVE:
                 if(isActionInsideRectangle(event.getX(), event.getY())) {
-                    adjustRectangle((int)event.getX(), (int)event.getY());
+                    adjustSelectedRange((int)event.getX(), (int)event.getY());
                     invalidate(); // redraw rectangle
                     previous.set((int)event.getX(), (int)event.getY());
                 }
@@ -72,7 +72,7 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
     }
 
     private void initCropView() {
-        paint.setColor(Color.YELLOW);
+        paint.setColor(Color.GREEN);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5);
         leftTop = new Point();
@@ -105,7 +105,7 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
                 (point.y >= (center.y - (imageScaledHeight / 2))) && (point.y <= (center.y + (imageScaledHeight / 2))));
     }
 
-    private void adjustRectangle(int x, int y) {
+    private void adjustSelectedRange(int x, int y) {
         int movement;
         switch(getAffectedSide(x,y)) {
             case LEFT:
@@ -113,7 +113,7 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
                 if(isInImageRange(new PointF(leftTop.x+movement,leftTop.y+movement)))
                     leftTop.set(leftTop.x+movement,leftTop.y+movement);
                 break;
-            case TOP:
+            case UP:
                 movement = y-leftTop.y;
                 if(isInImageRange(new PointF(leftTop.x+movement,leftTop.y+movement)))
                     leftTop.set(leftTop.x+movement,leftTop.y+movement);
@@ -123,7 +123,7 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
                 if(isInImageRange(new PointF(rightBottom.x+movement,rightBottom.y+movement)))
                     rightBottom.set(rightBottom.x+movement,rightBottom.y+movement);
                 break;
-            case BOTTOM:
+            case DOWN:
                 movement = y-rightBottom.y;
                 if(isInImageRange(new PointF(rightBottom.x+movement,rightBottom.y+movement)))
                     rightBottom.set(rightBottom.x+movement,rightBottom.y+movement);
@@ -146,11 +146,11 @@ public class CropProcessing extends android.support.v7.widget.AppCompatImageView
         if(x>=(leftTop.x-buffer)&&x<=(leftTop.x+buffer))
             return LEFT;
         else if(y>=(leftTop.y-buffer)&&y<=(leftTop.y+buffer))
-            return TOP;
+            return UP;
         else if(x>=(rightBottom.x-buffer)&&x<=(rightBottom.x+buffer))
             return RIGHT;
         else if(y>=(rightBottom.y-buffer)&&y<=(rightBottom.y+buffer))
-            return BOTTOM;
+            return DOWN;
         else
             return DRAG;
     }
