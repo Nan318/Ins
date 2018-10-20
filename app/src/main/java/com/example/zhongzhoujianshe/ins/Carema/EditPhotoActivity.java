@@ -36,15 +36,17 @@ public class EditPhotoActivity extends AppCompatActivity  {
     private Button btnFilter2 = null;
     private Button btnFilter3 = null;
     private Button btnCrop = null;
+    private Button btnNext = null;
     private SeekBar seekBarContrast = null;
     private SeekBar seekBarBrightness = null;
     private TextView textview_contrast = null;
     private TextView textview_brightness = null;
 
-    static int progress_contrast = 0;
-    static int progress_brightness = 0;
-    static int FILTER_STATIC = 0; // 0 represents no filters on, 1 one filter applied.
+    static int progress_contrast = 0;//original
+    static int progress_brightness = 0;//original
+    static int FILTER_STATIC = 0; //no filters
 
+    //initialize
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +54,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
 
         imageView = (ImageView)findViewById(R.id.imageview_edit);
         Intent intent = getIntent();
+        //show the image
         if (intent != null) {
             Matrix matrix = new Matrix();
             rawBitmap = BitmapStore.getBitmap();
@@ -61,27 +64,13 @@ public class EditPhotoActivity extends AppCompatActivity  {
             newBitmap = dstbmp;
         }
 
-        // Filters
+        // Filter btns
         btnFilter3 = (Button) findViewById(R.id.button_filter3);
         btnFilter1 = (Button) findViewById(R.id.button_filter1);
         btnFilter2 = (Button) findViewById(R.id.button_filter2);
         btnCrop = (Button) findViewById(R.id.button_crop);
-
-
-        btnFilter3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(FILTER_STATIC == 1) {
-                    newBitmap = ImageProcessing.doColorFilter(rawBitmap, 0.5, 0.5, 0.5);
-                    imageView.setImageBitmap(newBitmap);
-                } else {
-                    newBitmap = ImageProcessing.doColorFilter(newBitmap, 0.5, 0.5, 0.5);
-                    imageView.setImageBitmap(newBitmap);
-                    FILTER_STATIC = 1;
-                }
-            }
-        });
-
+        btnNext = (Button) findViewById(R.id.button2);
+        //filter one
         btnFilter1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -110,17 +99,31 @@ public class EditPhotoActivity extends AppCompatActivity  {
             }
         });
 
-        // Contrast & Brightness
+        btnFilter3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(FILTER_STATIC == 1) {
+                    newBitmap = ImageProcessing.doColorFilter(rawBitmap, 0.5, 0.5, 0.5);
+                    imageView.setImageBitmap(newBitmap);
+                } else {
+                    newBitmap = ImageProcessing.doColorFilter(newBitmap, 0.5, 0.5, 0.5);
+                    imageView.setImageBitmap(newBitmap);
+                    FILTER_STATIC = 1;
+                }
+            }
+        });
+
+        // Contrast & Brightness elements
         seekBarContrast = (SeekBar) findViewById(R.id.seekbar_contrast);
         seekBarBrightness = (SeekBar) findViewById(R.id.seekbar_brightness);
         textview_contrast = (TextView) findViewById(R.id.text_contrast);
         textview_brightness = (TextView) findViewById(R.id.textview_brightness);
 
 
-        // Listener for seekbar object
+        // adjust contrast by the seek bars
         seekBarContrast.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean ready) {
                 textview_contrast.setText("Contrast: " + String.valueOf(progress));
                 newBitmap = ImageProcessing.changeBitmapContrastBrightness(rawBitmap,
                         (float) progress/10f, (float) 5.12*(progress_brightness-50f));
@@ -136,9 +139,10 @@ public class EditPhotoActivity extends AppCompatActivity  {
             }
         });
 
+        // adjust brightness by the seek bars
         seekBarBrightness.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean ready) {
                 textview_brightness.setText("Brightness: " + String.valueOf(progress));
 
                 newBitmap = ImageProcessing.changeBitmapContrastBrightness(rawBitmap,
@@ -166,6 +170,17 @@ public class EditPhotoActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                BitmapStore.setBitmap(newBitmap);
+
+                Intent intent = new Intent(EditPhotoActivity.this, PostActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     @Override
@@ -189,9 +204,10 @@ public class EditPhotoActivity extends AppCompatActivity  {
     }
 
     private void startNext() {
+        //modify the photo size
         scaledBitmap = Bitmap.createScaledBitmap(newBitmap, 640, 640, false);
 
-        // save the modified picture
+        // save the photo
         File storagePath = new File(Environment.getExternalStorageDirectory()
                 + "/DCIM/100ANDRO/");
         storagePath.mkdirs();
@@ -210,7 +226,7 @@ public class EditPhotoActivity extends AppCompatActivity  {
             Log.d("In Saving File", e + "");
         }
 
-        // Pass the new image to the next post view
+        // post the photo
         Intent intent = new Intent();
         intent.putExtra("post_img", myImage.toString());
         intent.setClass(EditPhotoActivity.this, PostActivity.class);

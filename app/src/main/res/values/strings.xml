@@ -11,6 +11,6 @@
     <string name="register">REGISTER</string>
     <string name="username">Username</string>
     <string name="enter_username">PLEASE ENTER YOUR USERNAME</string>
-
+    <string name="search">Search</string>
     <string name="title_activity_bluetooth_dialog">BluetoothDialog</string>
 </resources>

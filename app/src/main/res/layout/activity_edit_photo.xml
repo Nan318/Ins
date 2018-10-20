@@ -112,5 +112,16 @@
             android:textColor="#ff33b5e5" />
     </LinearLayout>
 
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/seekbar_contrast"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="57dp"
+        android:background="#ffffff"
+        android:text="Next"
+        android:textColor="#ff33b5e5" />
+
 
 </RelativeLayout>

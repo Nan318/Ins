@@ -11,17 +11,17 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.net.wifi.hotspot2.pps.HomeSp;
 import android.os.Bundle;
+import com.example.zhongzhoujianshe.ins.Home.HomeActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
-import com.example.zhongzhoujianshe.ins.BluetoothPair;
+
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Set;
 
 public class PostActivity extends AppCompatActivity {
@@ -29,18 +29,17 @@ public class PostActivity extends AppCompatActivity {
     public ImageView imageview = null;
     private Bitmap rawBitmap = null;
     private Bitmap thumbnail = null;
-
-    private Button btnBluetooth = null;
+    
     private Button btnPost = null;
+    private Button btnBack = null;
     private String filePath = "";
-    private BluetoothPair btPair;
+
 
     private final static int REQUEST_ENABLE_BT = 1;
     private BluetoothAdapter mBluetoothAdapter;
 
     Set<BluetoothDevice> pairedDevices;
     // temp arraylist
-    private ArrayList<BluetoothPair> bluetoothPairs = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,13 +57,14 @@ public class PostActivity extends AppCompatActivity {
         thumbnail = rawBitmap;
         imageview.setImageBitmap(thumbnail);
 
-        btnBluetooth = (Button) findViewById(R.id.button_bluetooth);
-       /* btnBluetooth.setOnClickListener(new View.OnClickListener() {
+        btnBack = (Button) findViewById(R.id.button_back);
+        btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDialog();
+                Intent intent = new Intent(PostActivity.this, HomeActivity.class);
+                startActivity(intent);
             }
-        });*/
+        });
 
         btnPost = (Button) findViewById(R.id.button_post);
         btnPost.setOnClickListener(new View.OnClickListener() {
@@ -74,34 +74,9 @@ public class PostActivity extends AppCompatActivity {
             }
         });
 
-        startBluetooth();
     }
 
-
-    private void startBluetooth() {
-
-        mBluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-        if (!mBluetoothAdapter.isEnabled()) {
-            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-        }
-
-        // Start Intent for becoming discoverable. Set the Discoverable duration for 300 seconds.
-        Intent discoverableIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_DISCOVERABLE);
-        discoverableIntent.putExtra(BluetoothAdapter.EXTRA_DISCOVERABLE_DURATION, 300);
-        startActivity(discoverableIntent);
-        IntentFilter filter = new IntentFilter(BluetoothDevice.ACTION_FOUND);
-
-        registerReceiver(mReceiver, filter);
-
-        pairedDevices = mBluetoothAdapter.getBondedDevices();
-        if (pairedDevices.size() > 0) {
-            for (BluetoothDevice device : pairedDevices) {
-                bluetoothPairs.add(new BluetoothPair(device));
-            }
-        }
-    }
-
+    
 
     private void createInstagramIntent(String filePath){
         Intent instagram = new Intent(android.content.Intent.ACTION_SEND);
@@ -116,50 +91,8 @@ public class PostActivity extends AppCompatActivity {
         startActivity(Intent.createChooser(instagram, "Share to"));
     }
 
-    private void showDialog() {
-        final Dialog dialog = new Dialog(this);
-        dialog.setTitle("Choose a Bluetooth Pair");
-
-        View view = getLayoutInflater().inflate(R.layout.bluetooth_dialog, null);
-
-        ListView lv = (ListView) view.findViewById(R.id.pair_list);
-
-        BluetoothDialog clad = new BluetoothDialog(PostActivity.this, bluetoothPairs);
-
-        lv.setAdapter(clad);
-
-        // action on item
-     /*   lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Intent intent = new Intent(PostActivity.this,  SwipeActivity.class);
-
-                ////////Intent intent = new Intent(PostActivity.this,  SwipeActivity.class);
-                intent.putExtra("post_img", filePath);
-                btPair = bluetoothPairs.get(position);
-                intent.putExtra("device", bluetoothPairs.get(position).getDevice());
-
-                startActivity(intent);
-            }
-        });*/
-
-        dialog.setContentView(view);
-
-        dialog.show();
-
-    }
-
-    private final BroadcastReceiver mReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String action = intent.getAction();
-            if (BluetoothDevice.ACTION_FOUND.equals(action)) {
-                BluetoothDevice device = intent.getParcelableExtra(BluetoothDevice.EXTRA_DEVICE);
-                String name = device.getName();
-                Log.d("Bluetooth Device : ", name);
-            }
-        }
-    };
+   
+    
 }
 
 
