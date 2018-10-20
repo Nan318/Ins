@@ -36,24 +36,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Login.LoginActivity">
-
-        </activity>
-        <activity android:name=".Login.RegisterActivity">
-        </activity>
-        <activity android:name=".Carema.CameraActivity" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>        </activity>
+        <activity android:name=".Login.LoginActivity" />
+        <activity android:name=".Login.RegisterActivity" />
+        <activity android:name=".Carema.CameraActivity" />
         <activity android:name=".Carema.EditPhotoActivity" />
         <activity android:name=".PostActivity" />
         <activity android:name=".Carema.CropActivity" />
-        <activity android:name=".Discover.DiscoverActivity">
+        <activity android:name=".Discover.DiscoverActivity" />
+        <activity android:name=".Home.HomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-        </activity>
-        <activity android:name=".Home.HomeMaue">
-
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
     </application>
 

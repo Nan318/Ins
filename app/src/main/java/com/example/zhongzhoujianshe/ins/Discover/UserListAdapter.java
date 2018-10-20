@@ -20,6 +20,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +35,7 @@ public class UserListAdapter extends BaseAdapter {
 
     private ArrayList<User> users = null;
     private Context mContext;
+
 
     public UserListAdapter(@NonNull Context context, @NonNull ArrayList<User> users) {
         this.mContext = context;
@@ -104,7 +106,6 @@ public class UserListAdapter extends BaseAdapter {
                     }else {
                         Log.e("DISPLAY PHOTO", "no photo was added");
                     }
-
 
                 }
             }

@@ -28,6 +28,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -59,6 +61,8 @@ public class DiscoverActivity extends AppCompatActivity {
         mContext = DiscoverActivity.this;
         mRoot = FirebaseDatabase.getInstance().getReference();
 
+
+        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(DiscoverActivity.this));
         /* * * * * test sign out * * * * * */
 
         /*
@@ -130,9 +134,14 @@ public class DiscoverActivity extends AppCompatActivity {
         userList.clear();
         //update the users list view
         if(inputUsername.length() != 0){
+
             //search
+            //exact match
+            //Query filter = mRoot.child("users").orderByChild("username").equalTo(inputUsername);
+
+            //start at the input
             Query filter = mRoot.child("users")
-                    .orderByChild("username").equalTo(inputUsername);
+                    .orderByChild("username").startAt(inputUsername).endAt(inputUsername + "\uf8ff");
             filter.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -181,7 +190,6 @@ public class DiscoverActivity extends AppCompatActivity {
     //set bottom navigation view
     public void setBottomNavi(){
         //final Button bbb = (Button) findViewById(R.id.signout);
-
         //set click
         bnv.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
