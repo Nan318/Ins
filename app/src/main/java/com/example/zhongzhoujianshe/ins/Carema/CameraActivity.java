@@ -30,8 +30,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-
-/* Camera Activity implements the camera functionality of the app. */
+//Camera activity to take photos and select photo from phone gallery
 public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
     private Camera camera = null;
@@ -44,7 +43,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     private ToggleButton btnFlash = null;
     private ImageButton btnGallery = null;
 
-    // On create, first initialize the view elements
+    //initialize
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getWindow().setFormat(PixelFormat.TRANSLUCENT);
@@ -52,7 +51,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
-        // Button to Capture:
+        // take photo
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
 
@@ -75,12 +74,12 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             }
         });
 
-        // Button to Control FlashLight
+        // open FlashLight
         btnFlash = (ToggleButton) findViewById(R.id.button_flash);
         btnFlash.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    // The toggle is enabled
+                    // The FlashLight is enabled
                     if (camera == null) {
                         camera = Camera.open();
                     }
@@ -90,7 +89,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
                     camera.setParameters(parameters);
                     camera.startPreview();
                 } else {
-                    // The toggle is disabled
+                    // The FlashLight is disabled
                     if (camera == null) {
                         camera = Camera.open();
                     }
@@ -127,7 +126,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 	            }
 	        });*/
 
-        // Gallery
+        // select photo from Gallery
         btnGallery = (ImageButton) findViewById(R.id.button_gallery);
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -159,14 +158,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         @Override
         public void onPictureTaken(byte[] data, Camera camera){
             Bitmap cameraBitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
-
+            //save
             File storagePath = new File(Environment.getExternalStorageDirectory()
                     + "/DCIM/100ANDRO/");
             storagePath.mkdirs();
 
-            File myImage = new File(storagePath, Long.toString(System.currentTimeMillis()) + ".jpg");
+            File newImage = new File(storagePath, Long.toString(System.currentTimeMillis()) + ".jpg");
             try {
-                FileOutputStream out = new FileOutputStream(myImage);
+                FileOutputStream out = new FileOutputStream(newImage);
                 cameraBitmap.compress(Bitmap.CompressFormat.JPEG, 100, out);
 
                 out.flush();
@@ -176,8 +175,8 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
             } catch(IOException e) {
                 Log.d("In Saving File", e + "");
             }
-            // Send the image file to the gallery
-            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(myImage)));
+            // save photo to the gallery
+            sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.fromFile(newImage)));
 
             // Pass the new image to the next edit view
             BitmapStore.setBitmap(cameraBitmap);
@@ -188,7 +187,7 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
     };
 
     @Override
-    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
+    public void surfaceChanged(SurfaceHolder surfaceholder, int format, int width, int height) {
         if(previewing) {
             camera.stopPreview();
             previewing = false;
@@ -212,13 +211,14 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
         }
     }
 
+    //information of exception
     @Override
-    public void surfaceCreated(SurfaceHolder holder) {
+    public void surfaceCreated(SurfaceHolder surfaceholder) {
         try {
             camera = Camera.open();
         } catch(RuntimeException e) {
             Toast.makeText(getApplicationContext(), "Device Camera is " +
-                    "not working properly, please try after sometime.", Toast.LENGTH_LONG).show();
+                    "not working, please try after sometime.", Toast.LENGTH_LONG).show();
         }
     }
 
@@ -232,15 +232,15 @@ public class CameraActivity extends Activity implements SurfaceHolder.Callback {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode == RESULT_OK){
+    protected void onActivityResult(int request, int result, Intent data) {
+        super.onActivityResult(request, result, data);
+        if(result == RESULT_OK){
             Uri selectedImage = data.getData();
 
             try{
-                Bitmap yourSelectedImage = BitmapFactory.decodeStream(
+                Bitmap newSelectedImage = BitmapFactory.decodeStream(
                         getContentResolver().openInputStream(selectedImage));
-                BitmapStore.setBitmap(yourSelectedImage);
+                BitmapStore.setBitmap(newSelectedImage);
             }catch(FileNotFoundException e){
                 e.printStackTrace();
             }
