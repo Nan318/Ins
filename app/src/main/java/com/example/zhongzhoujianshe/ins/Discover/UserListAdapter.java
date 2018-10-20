@@ -33,13 +33,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class UserListAdapter extends BaseAdapter {
 
-    private ArrayList<User> users = null;
+    private ArrayList<UserProfileModel> userIds = null;
     private Context mContext;
 
 
-    public UserListAdapter(@NonNull Context context, @NonNull ArrayList<User> users) {
+    public UserListAdapter(@NonNull Context context, @NonNull ArrayList<UserProfileModel> userIds) {
         this.mContext = context;
-        this.users = users;
+        this.userIds = userIds;
     }
 
     private static class ViewHolder{
@@ -51,12 +51,12 @@ public class UserListAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        return users.size();
+        return userIds.size();
     }
 
     @Override
-    public User getItem(int position) {
-        return users.get(position);
+    public UserProfileModel getItem(int position) {
+        return userIds.get(position);
     }
 
     @Override

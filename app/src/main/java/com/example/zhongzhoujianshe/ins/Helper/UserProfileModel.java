@@ -14,10 +14,11 @@ public class UserProfileModel{
     private String username;
     private String website;
     private String user_id;
+    private String email;
 
     public UserProfileModel(String description, String display_name, long followers,
                                long following, long posts, String profile_photo, String username,
-                               String website, String user_id) {
+                               String website, String user_id, String email) {
         this.description = description;
         this.display_name = display_name;
         this.followers = followers;
@@ -27,6 +28,7 @@ public class UserProfileModel{
         this.username = username;
         this.website = website;
         this.user_id = user_id;
+        this.email = email;
     }
 
     public UserProfileModel() {
@@ -104,5 +106,15 @@ public class UserProfileModel{
     public void setWebsite(String website) {
         this.website = website;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+
 
 }
