@@ -2,6 +2,7 @@ package com.example.zhongzhoujianshe.ins.Home;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Camera;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -13,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
+import com.example.zhongzhoujianshe.ins.Carema.CameraActivity;
 import com.example.zhongzhoujianshe.ins.Helper.HomePagerAdapter;
 import com.example.zhongzhoujianshe.ins.Helper.NoScrollViewPager;
 import com.example.zhongzhoujianshe.ins.Login.LoginActivity;
@@ -45,7 +47,12 @@ public class HomeActivity extends AppCompatActivity {
                     return true;
                 case R.id.ic_add:
                   //  mTextMessage.setText(R.string.title_notifications);
-                    viewPager.setCurrentItem(0);
+                    //viewPager.setCurrentItem(0);
+                    Intent intent = new Intent(HomeActivity.this, CameraActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+                    finish();
+
                     return true;
                 case R.id.ic_follow:
                    // mTextMessage.setText(R.string.title_dashboard);

@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.zhongzhoujianshe.ins.Helper.GlideApp;
 import com.example.zhongzhoujianshe.ins.Helper.Like;
 import com.example.zhongzhoujianshe.ins.Helper.Post;
 import com.example.zhongzhoujianshe.ins.Helper.UserProfileModel;
@@ -25,6 +26,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -129,18 +131,16 @@ public class HomeListAdapter extends BaseAdapter {
 
         if (postPhoto != null){
             Log.e("DISPLAY Post PHOTO", "show photos");
-            // Reference to an image file in Cloud Storage
-            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("posts");
 
-            // Download directly from StorageReference using Glide
-            // (See MyAppGlideModule for Loader registration)
+            FirebaseStorage storage = FirebaseStorage.getInstance();
+
+            // Creating a reference to the link
+            StorageReference httpsReference = storage.getReferenceFromUrl(postPhoto);
+
             Glide.with(mContext /* context */)
-                    .load(storageRef)
+                    .load(httpsReference)
                     .into(holder.imageView_post);
 
-
-           // ImageLoader imageLoader = ImageLoader.getInstance();
-           // imageLoader.displayImage(postPhoto, holder.imageView_post);
         }else {
             Log.e("DISPLAY Post PHOTO", "no photo was added");
         }
