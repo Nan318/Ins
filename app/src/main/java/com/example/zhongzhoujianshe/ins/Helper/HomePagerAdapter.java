@@ -8,10 +8,11 @@ import android.view.ViewGroup;
 
 import com.example.zhongzhoujianshe.ins.Home.DiscoveryFragment;
 import com.example.zhongzhoujianshe.ins.Home.HomeFragment;
+import com.example.zhongzhoujianshe.ins.PersonalPage.PersonalPageFragment;
 
 public class HomePagerAdapter extends FragmentPagerAdapter {
     private Context mContext;
-    private final int PAGER_COUNT = 2;
+    private final int PAGER_COUNT = 3;
 
     public HomePagerAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -41,6 +42,8 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
                 return new HomeFragment();
             case 1: // Fragment # 1 - This will show the second page
                 return new DiscoveryFragment();
+            case 2:
+                return new PersonalPageFragment();
 
             default:
                 return null;
