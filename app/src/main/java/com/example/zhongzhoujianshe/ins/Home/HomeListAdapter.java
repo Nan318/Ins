@@ -11,24 +11,23 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.zhongzhoujianshe.ins.Discover.UserListAdapter;
+import com.bumptech.glide.Glide;
 import com.example.zhongzhoujianshe.ins.Helper.Like;
 import com.example.zhongzhoujianshe.ins.Helper.Post;
 import com.example.zhongzhoujianshe.ins.Helper.UserProfileModel;
 import com.example.zhongzhoujianshe.ins.R;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
-
-import de.hdodenhof.circleimageview.CircleImageView;
+import java.util.UUID;
 
 public class HomeListAdapter extends BaseAdapter {
 
@@ -36,20 +35,23 @@ public class HomeListAdapter extends BaseAdapter {
    // private ArrayList<UserProfileModel> users;
     private ArrayList<Post> posts;
     private Context mContext;
-    private String userId;
+    private String postUserId;
     private boolean like = false;
+    String postPhoto = "";
+    //private Post currentPost;
 
     //firebase
     private String currentUserId;
 
     public HomeListAdapter(@NonNull Context context, @NonNull
-            ArrayList<Post> posts) {
+            ArrayList<Post> posts, String currentUserId) {
         this.mContext = context;
         this.posts = posts;
+        this.currentUserId = currentUserId;
     }
 
     private static class ViewHolder{
-        ImageView imageView_profile;
+        CircleImageView imageView_profile;
         ImageView imageView_post;
         TextView txt_username;
         TextView txt_location;
@@ -79,19 +81,8 @@ public class HomeListAdapter extends BaseAdapter {
     @NonNull
     @Override
     public View getView(final int position, @Nullable View view, @NonNull ViewGroup viewGroup) {
-       //get Uid
-        FirebaseAuth.AuthStateListener mAuthListener = new FirebaseAuth.AuthStateListener() {
-            @Override
-            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
-                if (user != null) {
-                    // User is signed in
-                    currentUserId = user.getUid();
-                }else{
-                    Log.e("TAG", "onAuthStateChanged:signed_out");
-                }
-            }
-        };
+
+        Log.e("HomeListAdapter", "list size: " + getCount());
 
         Log.e("HomeListAdapter", "start create view");
 
@@ -108,7 +99,7 @@ public class HomeListAdapter extends BaseAdapter {
             holder.ic_like = (TextView) view.findViewById(R.id.like);
             holder.txt_likenum = (TextView) view.findViewById(R.id.liked_num);
             holder.txt_location = (TextView) view.findViewById(R.id.location);
-            holder.imageView_profile = (ImageView) view.findViewById(R.id.img_pro);
+            holder.imageView_profile = (CircleImageView) view.findViewById(R.id.img_pro);
             holder.imageView_post = (ImageView) view.findViewById(R.id.img_post);
             holder.txt_time = (TextView) view.findViewById(R.id.txt_time);
 
@@ -117,20 +108,39 @@ public class HomeListAdapter extends BaseAdapter {
             holder = (HomeListAdapter.ViewHolder) view.getTag();
         }
 
-        final Post post = getItem(position);
+       // currentPost = getItem(position);
 
-        userId = post.getUserId();
-        holder.txt_likenum.setText(String.valueOf(post.getLike()) + "liked");
-        holder.txt_location.setText("location: " + post.getLocation());
 
-        holder.txt_time.setText("time: " + post.getTimeStamp());
+        Log.e("HomeListAdapter", "getItemId" + getItemId(position));
+
+        postUserId = getItem(position).getUserId();
+        Log.e("HomeListAdapter", "getItem" + getItem(position));
+
+
+        Log.e("HomeListAdapter", "get postUserId" + postUserId);
+        holder.txt_likenum.setText(String.valueOf(getItem(position).getLike()) + "liked");
+        holder.txt_location.setText("location: " + getItem(position).getLocation());
+
+        holder.txt_time.setText("time: " + getItem(position).getTimeStamp());
 
         //display posted image
-        String postPhoto = post.getUrl();
-        if (!postPhoto.equals("")){
+        postPhoto = getItem(position).getUrl();
+        Log.e("HomeListAdapter", "get postPhoto url" + postPhoto);
+
+        if (postPhoto != null){
             Log.e("DISPLAY Post PHOTO", "show photos");
-            ImageLoader imageLoader = ImageLoader.getInstance();
-            imageLoader.displayImage(postPhoto, holder.imageView_post);
+            // Reference to an image file in Cloud Storage
+            StorageReference storageRef = FirebaseStorage.getInstance().getReference().child("posts");
+
+            // Download directly from StorageReference using Glide
+            // (See MyAppGlideModule for Loader registration)
+            Glide.with(mContext /* context */)
+                    .load(storageRef)
+                    .into(holder.imageView_post);
+
+
+           // ImageLoader imageLoader = ImageLoader.getInstance();
+           // imageLoader.displayImage(postPhoto, holder.imageView_post);
         }else {
             Log.e("DISPLAY Post PHOTO", "no photo was added");
         }
@@ -139,7 +149,7 @@ public class HomeListAdapter extends BaseAdapter {
 
         Log.e("HomeListAdapter", "search for users");
 
-        Query filter = mRoot.child("user_setting").orderByChild("userId").equalTo(userId);
+        Query filter = mRoot.child("user_setting").orderByChild("postUserId").equalTo(postUserId);
         //display profile photo for user
         filter.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -199,11 +209,13 @@ public class HomeListAdapter extends BaseAdapter {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()){
-                               Post cPost = dataSnapshot.getValue(Post.class);
-                               cPost.reduceLike();
-                                mRoot.child("post").child(postId).setValue(cPost);
+                               //Post cPost = dataSnapshot.getValue(Post.class);
+                                getItem(position).reduceLike();
+                                int likenum = getItem(position).getLike();
+                                mRoot.child("post").child(postId).child("like")
+                                        .setValue(likenum);
                                 Log.e("CLICK Like", "post like -1 ");
-                                holder.txt_likenum.setText(String.valueOf(cPost.getLike()) + "liked");
+                                holder.txt_likenum.setText(String.valueOf(likenum) + "liked");
                             }
 
                         }
@@ -221,10 +233,18 @@ public class HomeListAdapter extends BaseAdapter {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()){
                                 for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
+
                                     Like like = singleSnapshot.getValue(Like.class);
+
+
                                     if (like.getUserId().equals(currentUserId)){
-                                        mRoot.child("like").child(like.getLikeid()).removeValue();
+                                        DataSnapshot nodeDataSnapshot = dataSnapshot.getChildren()
+                                                .iterator().next();
+                                        String key = nodeDataSnapshot.getKey();
+                                        mRoot.child("like").child(key).removeValue();
                                         Log.e("CLICK Like", "delete like");
+                                        break;
+
                                     }
 
 
@@ -254,11 +274,11 @@ public class HomeListAdapter extends BaseAdapter {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()){
-                                Post cPost = dataSnapshot.getValue(Post.class);
-                                cPost.addLike();
-                                mRoot.child("post").child(postId).setValue(cPost);
+                                //Post cPost = dataSnapshot.getValue(Post.class);
+                                getItem(position).addLike();
+                                mRoot.child("post").child(postId).setValue(getItem(position));
                                 Log.e("CLICK Like", "post like +1 ");
-                                holder.txt_likenum.setText(String.valueOf(cPost.getLike()) + "liked");
+                                holder.txt_likenum.setText(String.valueOf(getItem(position).getLike()) + "liked");
                             }
 
                         }
@@ -275,11 +295,8 @@ public class HomeListAdapter extends BaseAdapter {
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()){
                                 Log.e("CLICK Like", "add like");
-
-                                String key = mRoot.child("like").push().getKey();
-                                Like like = new Like(postId, currentUserId, key);
-
-                                mRoot.child("like").child(key).setValue(like);
+                                Like like = new Like(postId, currentUserId);
+                                mRoot.child("like").push().setValue(like);
 
                             }
                         }

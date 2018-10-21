@@ -9,10 +9,9 @@ public class Like {
         // Default constructor required for calls to DataSnapshot.getValue(Like.class)
     }
 
-    public Like(String postid, String userId, String likeid) {
+    public Like(String postid, String userId) {
         this.postid = postid;
         this.userId = userId;
-        this.likeid = likeid;
     }
 
     public void setUserId(String userId){
@@ -31,11 +30,4 @@ public class Like {
         return postid;
     }
 
-    public void setLikeid(String likeid){
-        this.likeid = likeid;
-    }
-
-    public String getLikeid(){
-        return likeid;
-    }
 }

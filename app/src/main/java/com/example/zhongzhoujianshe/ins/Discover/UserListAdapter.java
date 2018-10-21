@@ -105,6 +105,8 @@ public class UserListAdapter extends BaseAdapter {
                         imageLoader.displayImage(profilePhoto, holder.profilePhoto);
                     }else {
                         Log.e("DISPLAY PHOTO", "no photo was added");
+                        holder.profilePhoto.setImageResource(R.mipmap.ic_launcher_round);
+
                     }
 
                 }
