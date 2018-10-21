@@ -6,7 +6,6 @@ import android.os.Parcel;
 public class UserProfileModel{
 
     private String description;
-    private String display_name;
     private long followers;
     private long following;
     private long posts;
@@ -16,11 +15,10 @@ public class UserProfileModel{
     private String user_id;
     private String email;
 
-    public UserProfileModel(String description, String display_name, long followers,
+    public UserProfileModel(String description, long followers,
                                long following, long posts, String profile_photo, String username,
                                String website, String user_id, String email) {
         this.description = description;
-        this.display_name = display_name;
         this.followers = followers;
         this.following = following;
         this.posts = posts;
@@ -49,14 +47,6 @@ public class UserProfileModel{
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getDisplayName() {
-        return display_name;
-    }
-
-    public void setDisplayName(String display_name) {
-        this.display_name = display_name;
     }
 
     public long getFollowers() {

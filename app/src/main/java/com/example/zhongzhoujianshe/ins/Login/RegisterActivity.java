@@ -240,7 +240,7 @@ public class RegisterActivity extends AppCompatActivity {
         Log.e("Add", "start add the user's information" );
 
 
-        UserProfileModel profileModel = new UserProfileModel(description, username,
+        UserProfileModel profileModel = new UserProfileModel(description,
                 0, 0, 0, profile_photo, username,
                 website, userID, email
         );
