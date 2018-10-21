@@ -10,11 +10,14 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.zhongzhoujianshe.ins.Helper.Post;
 import com.example.zhongzhoujianshe.ins.Helper.PostLocationComparator;
+import com.example.zhongzhoujianshe.ins.Helper.UserProfileModel;
 import com.example.zhongzhoujianshe.ins.R;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -69,12 +72,12 @@ public class HomeFragment extends Fragment {
 
         mContext = getActivity();
         mRoot = FirebaseDatabase.getInstance().getReference();
-        /*
+
         FirebaseUser user_db = FirebaseAuth.getInstance().getCurrentUser();
         if (user_db != null) {
             currentUserId = user_db.getUid();
 
-        }*/
+        }
 
         ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(mContext));
 
@@ -85,7 +88,7 @@ public class HomeFragment extends Fragment {
 
         //second, query their posts
         getPosts();
-
+        updateListView();
         //sort
         //default by time
         //sortByTime();
@@ -123,12 +126,14 @@ public class HomeFragment extends Fragment {
         filter.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
                 for(DataSnapshot singleSnapshot :  dataSnapshot.getChildren()){
-                    Log.e("HOME", "post exist");
+                    Log.e("HOME", "onDataChange: found post:"
+                            + singleSnapshot.getValue(Post.class).toString());
 
                     postArrayList.add(singleSnapshot.getValue(Post.class));
                     //update the users list view
-                    updateListView();
+
                 }
 
             }
@@ -138,12 +143,13 @@ public class HomeFragment extends Fragment {
                 Log.e("HOME", "get post fail");
             }
         });
+       // updateListView();
 
 
     }
 
     private void sortByLocation() {
-        if(postArrayList.size() != 0){
+        if(postArrayList.size() >1){
             Log.e("HOME", "sort by location");
             Collections.sort(postArrayList, new PostLocationComparator());
 
@@ -151,6 +157,7 @@ public class HomeFragment extends Fragment {
 
     }
     private void sortByTime() {
+
 
         /*
 
@@ -191,20 +198,26 @@ public class HomeFragment extends Fragment {
         });
     }
     private void updateListView(){
-        Log.e("DISCOVER", "start updating users list");
 
+        Log.e("HOME", "start updating users list");
+
+        Log.e("HOME", "the lenght of list: " + postArrayList.size());
         //mAdapter = new UserListAdapter(DiscoverActivity.this, R.layout.layout_user_listitem, userList);
 
-        mAdapter = new HomeListAdapter(mContext, postArrayList);
-        listView.setAdapter(mAdapter);
+        if(postArrayList.size() == 0){
+            Log.e("HOME", "listview: no item to be updated");
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Log.e("DISCOVER", "onItemClick: selected user: "
-                        + postArrayList.get(position).toString());
+        }else{
+            mAdapter = new HomeListAdapter(getActivity(), postArrayList, currentUserId );
+            listView.setAdapter(mAdapter);
 
-                //navigate to profile activity
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Log.e("HOME", "onItemClick: selected user: "
+                            + postArrayList.get(position).toString());
+
+                    //navigate to profile activity
                 /*
                 //go to another activity
                 Intent intent = new Intent(getActivity(),OtherActivity.class);
@@ -217,8 +230,11 @@ public class HomeFragment extends Fragment {
                         .addToBackStack(null)
                         .commit();
                         */
-                Log.e("NAVIGATION", "go to Profile");
-            }
-        });
+                    Log.e("NAVIGATION", "go to Profile");
+                }
+            });
+        }
+
+
     }
 }

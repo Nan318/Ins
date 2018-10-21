@@ -140,6 +140,7 @@ public class PostActivity extends AppCompatActivity {
                 && data != null && data.getData() != null )
         {
             filePath = data.getData();
+
             try {
                 Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), filePath);
                 imageView.setImageBitmap(bitmap);

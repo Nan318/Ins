@@ -5,25 +5,35 @@
     android:id="@+id/linearLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginBottom="20dp"
     android:background="@drawable/white_grey_border_bottom">
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/img_pro"
         android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginStart="24dp"
+        android:layout_height="72dp"
+        android:layout_marginStart="28dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@android:drawable/sym_def_app_icon"
-        tools:layout_editor_absoluteY="52dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.139"
+        app:civ_border_color="@color/black"
+        app:civ_border_width="0.5dp" />
+
 
     <TextView
         android:id="@+id/username"
         android:layout_width="108dp"
         android:layout_height="33dp"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
         android:text="Name"
         android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/img_pro"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -31,24 +41,30 @@
         android:id="@+id/location"
         android:layout_width="115dp"
         android:layout_height="26dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="16dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
         android:text="location"
         android:textColor="@android:color/black"
+        app:layout_constraintBottom_toTopOf="@+id/img_post"
         app:layout_constraintStart_toEndOf="@+id/img_pro"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/username"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/img_post"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
+        app:layout_constraintHorizontal_bias="0.469"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@mipmap/ic_launcher_round"
-        tools:layout_editor_absoluteY="152dp" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@mipmap/ic_launcher_round" />
 
     <TextView
         android:id="@+id/like"
@@ -100,9 +116,9 @@
         android:textColor="@color/black"
         app:layout_constraintBottom_toTopOf="@+id/img_post"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.308"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toEndOf="@+id/location"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.85" />
+        app:layout_constraintVertical_bias="0.75" />
 
 </android.support.constraint.ConstraintLayout>
