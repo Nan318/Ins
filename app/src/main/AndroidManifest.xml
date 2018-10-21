@@ -42,7 +42,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Login.LoginActivity" >
+        <activity android:name=".PersonalPage.PersonalPageActivity" >
         <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -50,7 +50,7 @@
         </intent-filter>
 
     </activity>
-        <activity android:name=".PersonalPage.PersonalPageActivity" />
+        <activity android:name=".Login.LoginActivity"/>
         <activity android:name=".Login.RegisterActivity" />
         <activity android:name=".Carema.CameraActivity" />
         <activity android:name=".Carema.EditPhotoActivity" />
